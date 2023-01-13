@@ -2,7 +2,10 @@ import { TestComponent } from '../TestComponent'
 
 function App () {
   return (
-    <TestComponent />
+    <>
+      <TestComponent />
+    </>
+
   )
 }
 
