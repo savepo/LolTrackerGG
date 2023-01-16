@@ -1,4 +1,3 @@
-import PintaDatos from '../NavigationBar'
 import DropdownSelect from '../DropdownSelect'
 function App () {
   const regions = [
@@ -21,7 +20,6 @@ function App () {
   ]
   return (
     <div>
-      <PintaDatos />
       <DropdownSelect placeholder='TEST' options={regions} />
     </div>
 
