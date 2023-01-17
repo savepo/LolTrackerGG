@@ -1,19 +1,45 @@
-import React, { useState } from 'react'
-import { DropdownContainer, DropdownInput, DropdownMenuOptions, DropdownnMenuItem, DropdownDisplayer, DropdownTools, DropdownIcon } from './styles'
+import React, { useEffect, useState } from 'react'
+import { DropdownContainer, DropdownInput, DropdownMenuOptions, DropdownnMenuItem, DropdownDisplayer, DropdownTools, DropdownIcon, DropdownTitle } from './styles'
 import iconDropdown from './img/iconDropdown.svg'
+import { GetSumoner } from '../../helpers/api.helper'
 
 const DropdownSelect = ({ placeholder, options = [] }) => {
-  const [openMenu, setOpenMenu] = useState(false)
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
+  useEffect(() => {
+    const handleClickDropdown = () => setIsOpenMenu()
+    window.addEventListener('click', handleClickDropdown)
+    return () => {
+      window.removeEventListener('click', handleClickDropdown)
+    }
+  })
+  const hanldeInputClick = (e) => {
+    e.stopPropagation()
+    setIsOpenMenu(!isOpenMenu)
+  }
 
-  const handleClickDropdown = () => setOpenMenu(!openMenu)
+  const [selectedValue, setSelectedValue] = useState(null)
 
   const getDisplay = () => {
+    if (selectedValue) {
+      return selectedValue.label
+    }
     return placeholder
   }
-  // TODO input the icon
+
+  const optionSelected = (option) => {
+    setSelectedValue(option)
+  }
+
+  /* const isOptionSelected = (option) => {
+    if (!selectedValue) {
+      return false
+    }
+    return selectedValue.value === option.value
+  } */
   return (
     <DropdownContainer className='dropdownContainer'>
-      <DropdownInput onClick={handleClickDropdown} className='dropdownInput'>
+      <DropdownTitle>Region</DropdownTitle>
+      <DropdownInput onClick={hanldeInputClick} className='dropdownInput'>
         <DropdownDisplayer className='dropdownDisplayer'>{getDisplay()}</DropdownDisplayer>
         <DropdownTools className='dropdownTools'>
           <DropdownIcon className='dropdownIcon'>
@@ -21,10 +47,16 @@ const DropdownSelect = ({ placeholder, options = [] }) => {
           </DropdownIcon>
         </DropdownTools>
       </DropdownInput>
-      {openMenu && (
+      {isOpenMenu && (
         <DropdownMenuOptions className='dropdownMenuOptions'>
           {options.map((element) => (
-            <DropdownnMenuItem className='dropdownMenuItem' key={element.label}>{element.value}</DropdownnMenuItem>
+            <DropdownnMenuItem
+              onClick={() => optionSelected(element)}
+              className='dropdownMenuItem'
+              key={element.value}
+            >
+              {element.label}
+            </DropdownnMenuItem>
           ))}
         </DropdownMenuOptions>)}
     </DropdownContainer>
