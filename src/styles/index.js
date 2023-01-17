@@ -13,7 +13,11 @@ export const trackerTheme = {
     defaultText: 'var(--clr-softBlack)'
   },
   sizes: {
-    rem03: '0.3rem',
-    rem9: '9.375'
+    rem1: '1.863rem',
+    rem03: '0.3rem'
+  },
+
+  typeFont: {
+    bold: 'bold'
   }
 }
