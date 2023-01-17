@@ -13,12 +13,4 @@ export const GetSumoner = ({ region, gameName }) => {
     })
   }, [baseUrl])
   return (post)
-  /* const [post, setPost] = useState(null)
-  const baseUrl = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + gameName + '?api_key=' + APIKEY
-  useEffect(() => {
-    axios.get(baseUrl).then((response) => {
-      setPost(response)
-    })
-  }, [])
-  return post */
 }
