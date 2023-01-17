@@ -1,0 +1,23 @@
+<svg width="37" height="32" viewBox="0 0 37 32" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_2_22)">
+        <g filter="url(#filter0_d_2_22)">
+            <path d="M30.2167 28L20.5042 19.6C19.7333 20.1333 18.8469 20.5556 17.8448 20.8667C16.8427 21.1778 15.7764 21.3333 14.6458 21.3333C11.8451 21.3333 9.47508 20.4947 7.53567 18.8173C5.59522 17.1391 4.625 15.0889 4.625 12.6667C4.625 10.2444 5.59522 8.19422 7.53567 6.516C9.47508 4.83867 11.8451 4 14.6458 4C17.4465 4 19.8171 4.83867 21.7575 6.516C23.697 8.19422 24.6667 10.2444 24.6667 12.6667C24.6667 13.6444 24.4868 14.5667 24.1271 15.4333C23.7674 16.3 23.2792 17.0667 22.6625 17.7333L32.375 26.1333L30.2167 28ZM14.6458 18.6667C16.5729 18.6667 18.2112 18.0836 19.5607 16.9173C20.9091 15.7502 21.5833 14.3333 21.5833 12.6667C21.5833 11 20.9091 9.58311 19.5607 8.416C18.2112 7.24978 16.5729 6.66667 14.6458 6.66667C12.7188 6.66667 11.0805 7.24978 9.731 8.416C8.38256 9.58311 7.70833 11 7.70833 12.6667C7.70833 14.3333 8.38256 15.7502 9.731 16.9173C11.0805 18.0836 12.7188 18.6667 14.6458 18.6667Z" fill="black"/>
+        </g>
+    </g>
+    <defs>
+        <filter id="filter0_d_2_22" x="0.625" y="4" width="35.75" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="4"/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_22"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_22" result="shape"/>
+        </filter>
+        <clipPath id="clip0_2_22">
+            <rect width="37" height="32" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>
