@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { DropdownContainer, DropdownInput, DropdownMenuOptions, DropdownnMenuItem, DropdownDisplayer, DropdownTools, DropdownIcon, DropdownTitle } from './styles'
 import iconDropdown from './img/iconDropdown.svg'
-import { GetSumoner } from '../../helpers/api.helper'
 
-const DropdownSelect = ({ placeholder, options = [] }) => {
+const DropdownSelect = ({ placeholder, options = [], onChange }) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   useEffect(() => {
     const handleClickDropdown = () => setIsOpenMenu()
@@ -28,6 +27,7 @@ const DropdownSelect = ({ placeholder, options = [] }) => {
 
   const optionSelected = (option) => {
     setSelectedValue(option)
+    onChange(option.value)
   }
 
   /* const isOptionSelected = (option) => {

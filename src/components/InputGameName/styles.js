@@ -16,17 +16,7 @@ export const BoxInputGameName = styled.input`
  border-right-style: hidden;
  border-left-style: hidden;
  border-bottom-style: groove;
- background-color: #eee;
- focus:{
+ &:focus{
     outline: none;
  }
-`
-
-export const ContainerIcon = styled.div`
- text-align: center;
- cursor: pointer;
-`
-
-export const Icon = styled.img`
- width: 1.8rem;
 `

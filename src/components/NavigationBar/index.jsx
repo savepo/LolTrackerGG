@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DropdownSelect from '../DropdownSelect'
 import InputGameName from '../InputGameName'
-import { NavigationBarContainer } from './styles'
+import { NavigationBarContainer, ContainerIcon, Icon } from './styles'
+import searchIcon from './img/searchIcon.svg'
 
 const NavigationBar = () => {
   const regions = [
@@ -22,11 +23,31 @@ const NavigationBar = () => {
     { value: 'TW2', label: 'Taiwan, Hong Kong and Macao' },
     { value: 'VN2', label: 'Vietnam' }
   ]
+  const [dataReceived, setDataReceived] = useState('')
+  const [selectedValue, setSelectedValue] = useState(regions[2].label)
+  const [getData, setGetData] = useState([dataReceived, selectedValue])
+
+  const handleInputGameName = (dataReceived) => {
+    setDataReceived(dataReceived)
+  }
+  const handleSelectedChange = (selectedValue) => {
+    setSelectedValue(selectedValue)
+  }
+  const handleClick = () => {
+    setGetData([dataReceived, selectedValue])
+  }
   return (
-    <NavigationBarContainer>
-      <DropdownSelect placeholder={regions[2].label} options={regions} />
-      <InputGameName />
-    </NavigationBarContainer>
+    <div>
+      <NavigationBarContainer>
+        <DropdownSelect placeholder={regions[2].label} options={regions} onChange={handleSelectedChange} />
+        <InputGameName onChange={handleInputGameName} />
+        <ContainerIcon onClick={handleClick}>
+          <Icon src={searchIcon} alt='icon-search' />
+        </ContainerIcon>
+        <h1>{getData[0] + ' ' + getData[1]}</h1>
+      </NavigationBarContainer>
+    </div>
+
   )
 }
 

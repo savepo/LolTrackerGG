@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import iconSearch from './img/iconSearch.svg'
-import { ContainerInputGameName, TitleGameName, BoxInputGameName, ContainerIcon, Icon } from './styles'
+import { ContainerInputGameName, TitleGameName, BoxInputGameName } from './styles'
 
-const InputGameName = () => {
+const InputGameName = ({ onChange }) => {
   const [gameName, setGameName] = useState('')
-  const [getGameName, setGetGameName] = useState(gameName)
 
-  const handleButtonClick = () => {
-    setGetGameName(gameName)
+  const handleChange = (e) => {
+    setGameName(e.target.value)
+    onChange(e.target.value)
   }
-  getGameNameUser(getGameName)
+
   return (
     <ContainerInputGameName>
       <div>
@@ -17,17 +16,11 @@ const InputGameName = () => {
         <BoxInputGameName
           type='text'
           value={gameName}
-          onChange={(e) => setGameName(e.target.value)}
+          onChange={handleChange}
         />
       </div>
-      <ContainerIcon onClick={handleButtonClick}>
-        <Icon src={iconSearch} alt='icon-search' />
-      </ContainerIcon>
     </ContainerInputGameName>
   )
-}
-export const getGameNameUser = (getGameName) => {
-  return getGameName
 }
 
 export default InputGameName
