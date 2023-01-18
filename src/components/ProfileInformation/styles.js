@@ -1,23 +1,26 @@
 import styled from '@emotion/styled'
 
 export const ProfileInformationContainer = styled.div`
-    width: 20rem;
-    height: 30rem;
+    width: 25%;
+    height: 40vw;
     text-align: center;
+    background: white;
+    border: 2px solid blue;
 `
 
 export const ProfileInformationTitle = styled.h2`
-    display: inline-block;
+    display: flex;
     font-family: Sans-serif, Arial;
+    font-size: 2vw;
     color: #595959;
     text-align: center;
+    justify-content: center;
     margin-top: 10%;
     margin-bottom: 5%;
 `
 
 export const ProfileInformationIcon = styled.img`
-    width: 10rem;
-    height: 10rem;
+    width: 45%;
     border-radius: 10rem;
     border: 0.1rem solid pink;
     margin-top: 5%;
@@ -27,7 +30,7 @@ export const ProfileInformationIcon = styled.img`
 export const ProfileInformationName = styled.h3`
     color: #000000;
     font-family: 'Kufam', sans-serif;
-    font-size: 1.5rem;
+    font-size: 2vw;
     text-shadow: 0px 3px 2px #948f8f;
 `
 
@@ -43,7 +46,7 @@ export const ProfileInformationLevelText = styled.p`
     margin-right: 0.2rem;
     font-family: 'Kufam', sans-serif;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 1vw;
 `
 
 export const ProfileInformationLevelNumber = styled.p`
@@ -52,5 +55,5 @@ export const ProfileInformationLevelNumber = styled.p`
     margin-left: 0.2rem;
     font-family: 'Kufam', sans-serif;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 1vw;
 `

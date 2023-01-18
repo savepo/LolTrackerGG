@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { withTheme } from '../../helpers/styles.helper'
 
 export const PersonalRatingContainer = styled.div`
-    width: 20rem;
+    width: 24rem;
     height: 13rem;
     text-align: center;
 `
@@ -15,7 +15,7 @@ export const PersonalRatingTitle = styled.h2`
     font-family: Sans-serif, Arial;
     color: #595959;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
 `
 
 export const PersonalRatingMenu = styled.div`
