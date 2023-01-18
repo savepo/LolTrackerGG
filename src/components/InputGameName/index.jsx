@@ -15,6 +15,7 @@ const InputGameName = ({ onChange }) => {
         <TitleGameName>GameName</TitleGameName>
         <BoxInputGameName
           type='text'
+          placeholder='Enter gameName...'
           value={gameName}
           onChange={handleChange}
         />

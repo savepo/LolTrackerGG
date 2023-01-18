@@ -4,7 +4,7 @@ import InputGameName from '../InputGameName'
 import { NavigationBarContainer, ContainerIcon, Icon } from './styles'
 import searchIcon from './img/searchIcon.svg'
 
-const NavigationBar = () => {
+const NavigationBar = ({ setGetData }) => {
   const regions = [
     { value: 'BR1', label: 'Brazil' },
     { value: 'EUN1', label: 'Europe Nordic & East' },
@@ -24,8 +24,7 @@ const NavigationBar = () => {
     { value: 'VN2', label: 'Vietnam' }
   ]
   const [dataReceived, setDataReceived] = useState('')
-  const [selectedValue, setSelectedValue] = useState(regions[2].label)
-  const [getData, setGetData] = useState([dataReceived, selectedValue])
+  const [selectedValue, setSelectedValue] = useState(regions[2].value)
 
   const handleInputGameName = (dataReceived) => {
     setDataReceived(dataReceived)
@@ -33,6 +32,7 @@ const NavigationBar = () => {
   const handleSelectedChange = (selectedValue) => {
     setSelectedValue(selectedValue)
   }
+
   const handleClick = () => {
     setGetData([dataReceived, selectedValue])
   }
@@ -44,7 +44,6 @@ const NavigationBar = () => {
         <ContainerIcon onClick={handleClick}>
           <Icon src={searchIcon} alt='icon-search' />
         </ContainerIcon>
-        <h1>{getData[0] + ' ' + getData[1]}</h1>
       </NavigationBarContainer>
     </div>
 

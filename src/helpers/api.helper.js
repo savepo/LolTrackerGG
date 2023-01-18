@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const APIKEY = 'RGAPI-c544a5f4-e39b-48ad-b2e4-599d3a3329db'
+const APIKEY = 'RGAPI-ca1127d6-002f-4501-b742-2add9c7b7741'
 
-export const GetSumoner = ({ region, gameName }) => {
-  const [post, setPost] = useState(null)
-  const baseUrl = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + gameName + '?api_key=' + APIKEY
+export function GetSummmoner (region, username) {
+  const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + APIKEY
+  const [post, setPost] = useState([])
 
   useEffect(() => {
-    axios.get(baseUrl).then((response) => {
+    axios.get(baseURL).then((response) => {
       setPost(response.data)
     })
-  }, [baseUrl])
-  return (post)
+  }, [baseURL])
+
+  return post
 }
