@@ -26,10 +26,10 @@ function App () {
     gameName = getData[0]
   }
   userInfo = GetSummoner(region, gameName)
-  console.log(userInfo)
+  // console.log(userInfo)
   let favouriteChamp
   favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
-  console.log(favouriteChamp)
+  // console.log(favouriteChamp)
   return (
     <div>
       <NavigationBar setGetData={handleOnChange} />
@@ -46,7 +46,7 @@ function App () {
           <RecentMatches data={RecentMatchesMockData} />
 
           <PersonalRating data={PersonalRatingMockData} />
-        </div>}
+          </div>}
 
     </div>
   )
