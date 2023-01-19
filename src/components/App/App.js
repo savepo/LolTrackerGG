@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import NavigationBar from '../NavigationBar'
 import { GetSummmoner } from '../../helpers/api.helper'
+import { Graphic } from '../GraphicRatio'
+import { GraphicContainer } from './styles'
 
 function App () {
   const [getData, setGetData] = useState([])
@@ -24,6 +26,13 @@ function App () {
         iconIdPrifle {userInfo.profileIconId}
       </div>
       Level{userInfo.summonerLevel}
+      <div>
+        id {userInfo.puuid}
+      </div>
+      <GraphicContainer>
+        <Graphic />
+      </GraphicContainer>
+
     </div>
 
   )
