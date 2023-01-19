@@ -28,7 +28,7 @@ function App () {
   userInfo = GetSummoner(region, gameName)
   console.log(userInfo)
   let favouriteChamp
-  favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
+  favouriteChamp = GetFavouriteChampion(region, 'K_-5ViXwOwCnGN8l6h2b2IcUy7AZKt5ZYTUZeF4WUL8fDdvt')
   console.log(favouriteChamp)
   return (
     <div>
@@ -45,7 +45,7 @@ function App () {
           <RecentMatches data={RecentMatchesMockData} />
           <FavouriteChampion data={favouriteChamp === undefined ? FavouriteChampionMockData : favouriteChamp} />
           <PersonalRating data={PersonalRatingMockData} />
-          </div>}
+        </div>}
 
     </div>
   )
