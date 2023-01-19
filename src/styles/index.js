@@ -11,5 +11,13 @@ export const trackerTheme = {
     white: 'var(--clr-white)',
     highLight: 'var(--clr-coral)',
     defaultText: 'var(--clr-softBlack)'
+  },
+  sizes: {
+    rem1: '1.863rem',
+    rem03: '0.3rem'
+  },
+
+  typeFont: {
+    bold: 'bold'
   }
 }
