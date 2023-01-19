@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import NavigationBar from '../NavigationBar'
 import { GetSummmoner } from '../../helpers/api.helper'
-import { Graphic } from '../GraphicRatio'
-import { GraphicContainer } from './styles'
+import PlayerAverageCard from '../PlayerAverageCard'
 
 function App () {
   const [getData, setGetData] = useState([])
@@ -29,10 +28,7 @@ function App () {
       <div>
         id {userInfo.puuid}
       </div>
-      <GraphicContainer>
-        <Graphic />
-      </GraphicContainer>
-
+      <PlayerAverageCard />
     </div>
 
   )
