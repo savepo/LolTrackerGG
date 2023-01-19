@@ -13,21 +13,23 @@ import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
 
 function App () {
   const [getData, setGetData] = useState(['DinoKlk', 'euw1'])
+  let region = getData[1].toLowerCase()
+  let gameName = getData[0]
+
+  let userInfo
 
   const handleOnChange = (getData) => {
     setGetData(getData)
   }
-  let region
-  let gameName
   if (getData[1] !== undefined) {
     region = getData[1].toLowerCase()
     gameName = getData[0]
   }
-  let userInfo
-  let favouriteChamp
   userInfo = GetSummoner(region, gameName)
+  console.log(userInfo)
+  let favouriteChamp
   favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
-  console.log(favouriteChamp)
+
   return (
     <div>
       <NavigationBar setGetData={handleOnChange} />
@@ -40,7 +42,7 @@ function App () {
           <PlayerAverageCard />
           <ProfileInformation data={userInfo} />
           <RecentMatches data={RecentMatchesMockData} />
-          <FavouriteChampion data={FavouriteChampionMockData} />
+          <FavouriteChampion data={favouriteChamp === undefined ? FavouriteChampionMockData : favouriteChamp} />
           <PersonalRating data={PersonalRatingMockData} />
           </div>}
 

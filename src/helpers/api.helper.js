@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const key = 'RGAPI-a5df3134-8642-474e-af74-ea9dc334698a'
+const key = 'RGAPI-c90d249a-c699-4f78-9359-3a04d08a49e5'
 
 export function GetSummoner (region, username) {
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key
@@ -11,9 +11,10 @@ export function GetSummoner (region, username) {
   useEffect(() => {
     axios.get(baseURL).then((response) => {
       setPost(response.data)
+      console.log(response.data)
     })
   }, [baseURL])
-
+  console.log(post)
   return GetSummonerPreparedObject(post)
 }
 
@@ -33,20 +34,25 @@ export function GetFavouriteChampion (region, encryptedSummonerId) {
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
-      setPost(response.data)
+      setPost(response.data[0])
     })
   }, [baseURL])
 
-  // for (let i = 0; i < post.length; i++) {
-  //   const element = array[i]
+  let FavouriteChampionData
 
-  // }
-
-  const cl = GetChampionList()
-  console.log(cl)
-  const filteredChamp = cl.filter(champ => champ.Aatrox.key === 266)
-  console.log(filteredChamp)
-  return post[0]
+  const championList = GetChampionList()
+  const championListValues = Object.values(championList)
+  for (let i = 0; i < championListValues.length; i++) {
+    const keyToNumber = Number(championListValues[i].key)
+    const championIdToNumber = Number(post.championId)
+    if (keyToNumber === championIdToNumber) {
+      FavouriteChampionData = {
+        name: championListValues[i].name,
+        championSrc: 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + championListValues[i].id + '_0.jpg'
+      }
+    }
+  }
+  return FavouriteChampionData
 }
 
 function GetChampionList () {
