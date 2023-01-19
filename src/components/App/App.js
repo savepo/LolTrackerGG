@@ -1,17 +1,19 @@
-import { MainContainer } from './styles'
-import { TestComponent } from '../TestComponent'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
 import RecentMatches from '../RecentMatches'
+import ProfileInformationMockData from '../../resources/DataSamples/ProfileInformation'
+import FavouriteChampionMockData from '../../resources/DataSamples/FavouriteChampion'
+import PersonalRatingMockData from '../../resources/DataSamples/PersonalRating'
+import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
 
 function App () {
   return (
     <>
-      <RecentMatches />
-      <ProfileInformation iconNumber={5295} username='GasKu' level={236} />
-      <FavouriteChampion name='RekSai' />
-      <PersonalRating />
+      <RecentMatches data={RecentMatchesMockData} />
+      <ProfileInformation data={ProfileInformationMockData} />
+      <FavouriteChampion data={FavouriteChampionMockData} />
+      <PersonalRating data={PersonalRatingMockData} />
     </>
 
   )

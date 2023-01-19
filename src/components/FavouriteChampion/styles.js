@@ -37,6 +37,7 @@ export const FavouriteChampionName = styled.h1`
     font-family: 'Kufam', sans-serif;
     font-size: 1.7rem;
     text-shadow: 0px 3px 2px #948f8f;
+    margin-bottom: 3rem;
 `
 
 export const FavouriteChampionPictureContainer = styled.div`
@@ -47,5 +48,5 @@ export const FavouriteChampionPictureContainer = styled.div`
 `
 
 export const FavouriteChampionPicture = styled.img`
-    height: 100%
+    height: 85%
 `
