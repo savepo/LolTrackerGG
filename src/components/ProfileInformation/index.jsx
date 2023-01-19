@@ -9,7 +9,7 @@ const ProfileInformation = ({ data }) => {
       <ProfileInformationName data-testid='PI_Username'>{data.name}</ProfileInformationName>
       <ProfileInformationLevelContainer>
         <ProfileInformationLevelText data-testid='PI_LevelText'>Level</ProfileInformationLevelText>
-        <ProfileInformationLevelNumber data-testid='PI_LevelNumber'>{data.level}</ProfileInformationLevelNumber>
+        <ProfileInformationLevelNumber data-testid='PI_LevelNumber'>{data.summonerLevel}</ProfileInformationLevelNumber>
       </ProfileInformationLevelContainer>
     </ProfileInformationContainer>
   )
