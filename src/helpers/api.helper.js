@@ -14,6 +14,7 @@ export function GetSummoner (region, username) {
       setPost(response.data)
     })
   }, [baseURL])
+
   return GetSummonerPreparedObject(post)
 }
 
@@ -59,7 +60,7 @@ export function GetFavouriteChampion (region, encryptedSummonerId) {
 }
 
 function GetChampionList () {
-  const baseURL = 'http://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json'
+  const baseURL = 'https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json'
   const [post, setPost] = useState([])
 
   useEffect(() => {
