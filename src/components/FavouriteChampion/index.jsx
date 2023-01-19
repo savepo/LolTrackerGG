@@ -1,17 +1,16 @@
 import React from 'react'
 import { FavouriteChampionContainer, FavouriteChampionInformationContainer, FavouriteChampionTitle, FavouriteChampionNameContainer, FavouriteChampionPictureContainer, FavouriteChampionName, FavouriteChampionPicture } from './styles'
 
-const FavouriteChampion = ({ name = 'Aatrox' }) => {
-  const champSplashSrc = 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + name + '_0.jpg'
+const FavouriteChampion = ({ data }) => {
   return (
     <FavouriteChampionContainer>
-      <FavouriteChampionTitle>FAVOURITE CHAMPION</FavouriteChampionTitle>
+      <FavouriteChampionTitle data-testid='FC_Title'>FAVOURITE CHAMPION</FavouriteChampionTitle>
       <FavouriteChampionInformationContainer>
         <FavouriteChampionNameContainer>
-          <FavouriteChampionName>{name}</FavouriteChampionName>
+          <FavouriteChampionName data-testid='FC_Name'>{data.name}</FavouriteChampionName>
         </FavouriteChampionNameContainer>
         <FavouriteChampionPictureContainer>
-          <FavouriteChampionPicture src={champSplashSrc} />
+          <FavouriteChampionPicture data-testid='FC_ChampImage' src={data.championSrc} />
         </FavouriteChampionPictureContainer>
       </FavouriteChampionInformationContainer>
 

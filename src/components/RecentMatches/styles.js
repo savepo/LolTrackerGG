@@ -1,9 +1,8 @@
 import styled from '@emotion/styled'
 
 export const RecentMatchesContainer = styled.div`
-    width: 40rem;
+    width: 60%;
     height: 30rem;
-    border: 2px solid red;
 `
 
 export const RecentMatchesTitleContainer = styled.div`
@@ -11,6 +10,7 @@ export const RecentMatchesTitleContainer = styled.div`
     height: fit-content;
     display: flex;
     justify-content: center;
+    color: #595959;
 `
 
 export const RecentMatchesTitle = styled.h2`

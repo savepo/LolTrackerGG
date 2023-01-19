@@ -4,25 +4,7 @@ import PersonalRatingMenuItem from './subComponents/PersonalRatingMenuItem'
 
 import { PersonalRatingContainer, PersonalRatingTitle, PersonalRatingMenu, PersonalRatingStatsContainer, PersonalRatingInformationContainer, PersonalRatingLabel, PersonalRatingImageContainer, PersonalRatingRankPicture } from './styles'
 
-const PersonalRating = ({ }) => {
-  const rankingData = {
-    RankedSolo: {
-      text: 'Ranked Solo',
-      tier: 'SILVER',
-      rank: 'IV',
-      leaguePoints: 40,
-      wins: 14,
-      losses: 13
-    },
-    RankedFlex: {
-      text: 'Ranked Flex',
-      tier: 'GRANDMASTER',
-      rank: '',
-      leaguePoints: 20,
-      wins: 4,
-      losses: 13
-    }
-  }
+const PersonalRating = ({ data }) => {
   const [selectedTab, setSelectedTab] = useState('Ranked Solo')
   const handleTabClick = (tab) => {
     setSelectedTab(tab)
@@ -84,13 +66,13 @@ const PersonalRating = ({ }) => {
       </PersonalRatingMenu>
       <PersonalRatingStatsContainer>
         <PersonalRatingInformationContainer>
-          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? rankingData.RankedSolo.tier : rankingData.RankedFlex.tier} {selectedTab === 'Ranked Solo' ? rankingData.RankedSolo.rank : rankingData.RankedFlex.rank}</PersonalRatingLabel>
-          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? rankingData.RankedSolo.leaguePoints : rankingData.RankedFlex.leaguePoints} LP</PersonalRatingLabel>
-          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? rankingData.RankedSolo.wins : rankingData.RankedFlex.wins}W {selectedTab === 'Ranked Solo' ? rankingData.RankedSolo.losses : rankingData.RankedFlex.losses}L</PersonalRatingLabel>
+          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? data.RankedSolo.tier : data.RankedFlex.tier} {selectedTab === 'Ranked Solo' ? data.RankedSolo.rank : data.RankedFlex.rank}</PersonalRatingLabel>
+          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? data.RankedSolo.leaguePoints : data.RankedFlex.leaguePoints} LP</PersonalRatingLabel>
+          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? data.RankedSolo.wins : data.RankedFlex.wins}W {selectedTab === 'Ranked Solo' ? data.RankedSolo.losses : data.RankedFlex.losses}L</PersonalRatingLabel>
         </PersonalRatingInformationContainer>
         <PersonalRatingInformationContainer>
           <PersonalRatingImageContainer>
-            <PersonalRatingRankPicture src={selectedTab === 'Ranked Solo' ? getTierImage(rankingData.RankedSolo.tier) : getTierImage(rankingData.RankedFlex.tier)} />
+            <PersonalRatingRankPicture src={selectedTab === 'Ranked Solo' ? getTierImage(data.RankedSolo.tier) : getTierImage(data.RankedFlex.tier)} />
           </PersonalRatingImageContainer>
         </PersonalRatingInformationContainer>
       </PersonalRatingStatsContainer>
