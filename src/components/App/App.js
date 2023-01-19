@@ -29,7 +29,7 @@ function App () {
   console.log(userInfo)
   let favouriteChamp
   favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
-
+  console.log(favouriteChamp)
   return (
     <div>
       <NavigationBar setGetData={handleOnChange} />
@@ -39,8 +39,9 @@ function App () {
           <div>{userInfo.name}</div>
           <div>{userInfo.puuid}</div>
           <div>{userInfo.summonerLevel}</div>
-          <PlayerAverageCard />
           <ProfileInformation data={userInfo} />
+          <PlayerAverageCard />
+
           <RecentMatches data={RecentMatchesMockData} />
           <FavouriteChampion data={favouriteChamp === undefined ? FavouriteChampionMockData : favouriteChamp} />
           <PersonalRating data={PersonalRatingMockData} />
