@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const key = 'RGAPI-c90d249a-c699-4f78-9359-3a04d08a49e5'
+const key = 'RGAPI-eb89a4a5-5c87-4108-b4cd-ab50b304e647'
 
 export function GetSummoner (region, username) {
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key
