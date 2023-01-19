@@ -16,3 +16,16 @@ export default function GetSummmoner (region, username) {
 
   return post
 }
+
+export function GetProfileIcon (iconNumber) {
+  const baseURL = 'https://ddragon.leagueoflegends.com/cdn/11.14.1/img/profileicon/' + iconNumber + '.png'
+  const [post, setPost] = useState(null)
+
+  useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data)
+    })
+  }, [])
+
+  return post
+}
