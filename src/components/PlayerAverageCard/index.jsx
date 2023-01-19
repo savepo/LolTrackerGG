@@ -5,7 +5,7 @@ import { CardStats } from './styles'
 import ChampionCardRecentPlayed from '../CardChampionRecentPlayed'
 import { ChampionCardRecentMockData as dataChampion } from '../../resources/DataSamples/ChampionCardRecentPlayed'
 
-const PlayerAverageCard = () => {
+const PlayerAverageCard = ({ dataTotalMatches }) => {
   return (
     <CardStats>
       <Graphic />

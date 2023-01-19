@@ -5,7 +5,7 @@ import InfoWinLosesMatches from '../InfoWinLoses'
 import { GraphicContainer } from './styles'
 
 ChartJS.register(ArcElement, Tooltip)
-const Graphic = ({ infoWinLoses }) => {
+const Graphic = ({ numWinMatches, numLosesMatches, totalastMatches }) => {
   const centerText = '58%'
   const win = 60
   const loses = 40
@@ -53,7 +53,7 @@ const Graphic = ({ infoWinLoses }) => {
 
   return (
     <GraphicContainer>
-      <InfoWinLosesMatches numWinMatches={11} numLosesMatches={8} totalastMatches={20} />
+      <InfoWinLosesMatches numWinMatches={11} numLosesMatches={8} totalastMatches={totalastMatches} />
       <Doughnut data={data} plugins={plugins} />
     </GraphicContainer>
 

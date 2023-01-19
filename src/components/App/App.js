@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import NavigationBar from '../NavigationBar'
-import { GetSummmoner } from '../../helpers/api.helper'
+import { GetSummoner, GetListMatches, GetNumWinLosesMatches } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
@@ -16,18 +16,40 @@ function App () {
   const handleOnChange = (getData) => {
     setGetData(getData)
   }
-  let userInfo
-  let region
-  let gameName
-  if (getData[1] !== undefined) {
-    region = getData[1].toLowerCase()
-    gameName = getData[0]
-  } else {
-    userInfo = null
+
+  const classifyByRegions = (region) => {
+    let continent
+    switch (region) {
+      case 'euw1':
+      case 'euw2':
+        continent = 'europe'
+        break
+      case 'br1':
+      case 'la1':
+      case 'la2':
+      case 'na1':
+        continent = 'americas'
+        break
+      default:
+        break
+    }
+    return continent
   }
 
-  userInfo = GetSummmoner(region, gameName)
-  console.log(userInfo)
+  const userInfo = GetSummoner(getData[1], getData[0])
+
+  const matchList = GetListMatches(userInfo.puuid, classifyByRegions(getData[1]))
+  const numWinLoses = GetNumWinLosesMatches(matchList, classifyByRegions(getData[1])).teams
+  if (numWinLoses !== undefined) {
+    for (let i = 0; i < numWinLoses.length; i++) {
+      console.log(i)
+      console.log(numWinLoses[i])
+      /* if (numWinLoses[i].win) {
+        console.log
+      } */
+    }
+  }
+
   return (
     <div>
       <NavigationBar setGetData={handleOnChange} />
@@ -39,7 +61,7 @@ function App () {
           <ProfileInformation data={userInfo} />
           <FavouriteChampion data={FavouriteChampionMockData} />
           <PersonalRating data={PersonalRatingMockData} />
-          </div>}
+        </div>}
     </div>
   )
 }
