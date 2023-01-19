@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import NavigationBar from '../NavigationBar'
-import { GetSummmoner } from '../../helpers/api.helper'
+import { GetSummoner, GetFavouriteChampion } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
@@ -23,9 +23,11 @@ function App () {
     region = getData[1].toLowerCase()
     gameName = getData[0]
   }
-
-  const userInfo = GetSummmoner(region, gameName)
-  console.log(userInfo)
+  let userInfo
+  let favouriteChamp
+  userInfo = GetSummoner(region, gameName)
+  favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
+  console.log(favouriteChamp)
   return (
     <div>
       <NavigationBar setGetData={handleOnChange} />
@@ -40,7 +42,7 @@ function App () {
           <RecentMatches data={RecentMatchesMockData} />
           <FavouriteChampion data={FavouriteChampionMockData} />
           <PersonalRating data={PersonalRatingMockData} />
-        </div>}
+          </div>}
 
     </div>
   )
