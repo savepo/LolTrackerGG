@@ -1,17 +1,31 @@
-import { useEffect, useState } from 'react'
+// import { data } from './AppMockItems/peopleInformation'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const APIKEY = 'RGAPI-ca1127d6-002f-4501-b742-2add9c7b7741'
+const key = 'RGAPI-c544a5f4-e39b-48ad-b2e4-599d3a3329db'
 
-export function GetSummmoner (region, username) {
-  const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + APIKEY
-  const [post, setPost] = useState([])
+export default function GetSummmoner (region, username) {
+  const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key
+  const [post, setPost] = useState(null)
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
       setPost(response.data)
     })
-  }, [baseURL])
+  }, [])
+
+  return post
+}
+
+export function GetProfileIcon (iconNumber) {
+  const baseURL = 'https://ddragon.leagueoflegends.com/cdn/11.14.1/img/profileicon/' + iconNumber + '.png'
+  const [post, setPost] = useState(null)
+
+  useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data)
+    })
+  }, [])
 
   return post
 }
