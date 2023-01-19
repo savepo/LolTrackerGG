@@ -6,7 +6,7 @@ const key = 'RGAPI-ca1127d6-002f-4501-b742-2add9c7b7741'
 
 export function GetSummmoner (region, username) {
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key
-  const [post, setPost] = useState(null)
+  const [post, setPost] = useState([])
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -14,7 +14,16 @@ export function GetSummmoner (region, username) {
     })
   }, [baseURL])
 
-  return post
+  return GetSummonerPreparedObject(post)
+}
+
+function GetSummonerPreparedObject (data) {
+  const ProfileInformationData = {
+    name: data.name,
+    level: data.summonerLevel,
+    iconSrc: 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/' + data.profileIconId + '.png'
+  }
+  return ProfileInformationData
 }
 
 export function GetProfileIcon (iconNumber) {
