@@ -1,15 +1,14 @@
 import React from 'react'
+import { AverageStatsContainer, Kills, Deaths, Assists, AverageStats } from './styles'
 
 const AverageStatsPlayer = ({ kills, deaths, assits }) => {
   return (
-    <div>
-      <div>{kills}</div>
-      <div>{deaths}</div>
-      <div>{assits}</div>
-      <div>
-        1.99
-      </div>
-    </div>
+    <AverageStatsContainer>
+      <Kills>{kills}/</Kills>
+      <Deaths>{deaths}/</Deaths>
+      <Assists>{assits}</Assists>
+      <AverageStats>{1.99}</AverageStats>
+    </AverageStatsContainer>
   )
 }
 

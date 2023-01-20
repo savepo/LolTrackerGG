@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot } from './styles'
+import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot, GraphicSlot } from './styles'
 import NavigationBar from '../NavigationBar'
 import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
@@ -57,11 +57,13 @@ function App () {
               {favouriteChamp === undefined ? <div /> : <FavouriteChampion data={favouriteChamp} />}
             </FavouriteChampionSlot>
           </MainSlot>
+          <GraphicSlot>
+            <PlayerAverageCard data={recentMatchesData} />
+          </GraphicSlot>
 
-          <PlayerAverageCard data={recentMatchesData} />
           <RecentMatches data={RecentMatchesMockData} />
           {/* <RecentMatches /> */}
-        </div>}
+          </div>}
 
     </div>
   )

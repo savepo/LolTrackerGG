@@ -36,3 +36,8 @@ export const FavouriteChampionSlot = styled.div`
     width: 30%;
     height: 30%;
 `
+
+export const GraphicSlot = styled.div`
+    width: 80%;
+    height: 30%;
+`
