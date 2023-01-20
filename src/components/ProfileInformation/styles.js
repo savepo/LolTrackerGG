@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
 
 export const ProfileInformationContainer = styled.div`
-    width: 25%;
-    height: 40vw;
+    width: 100%;
+    height: 100%;
     text-align: center;
     background: white;
 `

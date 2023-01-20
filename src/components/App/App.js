@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot } from './styles'
 import NavigationBar from '../NavigationBar'
-import { GetSummoner, GetFavouriteChampion, GetPersonalRating } from '../../helpers/api.helper'
+import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
@@ -29,29 +30,38 @@ function App () {
   // console.log(userInfo)
   let favouriteChamp
   let personalRating
+  let recentMatchesData
 
   favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
   personalRating = GetPersonalRating(region, userInfo.encryptedSummonerId)
-  // console.log(favouriteChamp)
+  recentMatchesData = GetRecentMatches(region, userInfo.puuid)[0]
+  // console.log(Object.values(recentMatchesData))
   return (
     <div>
+      <TitleContainer>
+        <Title>LOL TRACKER GG</Title>
+      </TitleContainer>
       <NavigationBar setGetData={handleOnChange} />
+
       {!userInfo
         ? null
         : <div>
-          <div>{userInfo.name}</div>
-          <div>{userInfo.puuid}</div>
-          <div>{userInfo.summonerLevel}</div>
-          {personalRating === undefined ? <div /> : <PersonalRating data={personalRating} />}
-          {userInfo === undefined ? <div /> : <ProfileInformation data={userInfo} />}
-          {favouriteChamp === undefined ? <div /> : <FavouriteChampion data={favouriteChamp} />}
+          <MainSlot>
+            <ProfileInfoSlot>
+              {userInfo === undefined ? <div /> : <ProfileInformation data={userInfo} />}
+            </ProfileInfoSlot>
+            <PersonalRatingSlot>
+              {personalRating === undefined ? <div /> : <PersonalRating data={personalRating} />}
+            </PersonalRatingSlot>
+            <FavouriteChampionSlot>
+              {favouriteChamp === undefined ? <div /> : <FavouriteChampion data={favouriteChamp} />}
+            </FavouriteChampionSlot>
+          </MainSlot>
 
-          <PlayerAverageCard />
-
+          <PlayerAverageCard data={recentMatchesData} />
           <RecentMatches data={RecentMatchesMockData} />
-
-          <PersonalRating data={PersonalRatingMockData} />
-          </div>}
+          {/* <RecentMatches /> */}
+        </div>}
 
     </div>
   )

@@ -1,9 +1,10 @@
 import styled from '@emotion/styled'
 
 export const FavouriteChampionContainer = styled.div`
-    width: 24rem;
-    height: 13rem;
+    width: 100%;
+    height: 100%;
     text-align: center;
+    margin-top: 3.5rem;
 `
 
 export const FavouriteChampionTitle = styled.h2`
@@ -48,5 +49,5 @@ export const FavouriteChampionPictureContainer = styled.div`
 `
 
 export const FavouriteChampionPicture = styled.img`
-    height: 85%
+    width: 8vw;
 `

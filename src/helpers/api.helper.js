@@ -23,8 +23,10 @@ function GetSummonerPreparedObject (data) {
     name: data.name,
     level: data.summonerLevel,
     iconSrc: 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/' + data.profileIconId + '.png',
-    encryptedSummonerId: data.id
+    encryptedSummonerId: data.id,
+    puuid: data.puuid
   }
+  // console.log(ProfileInformationData)
   return ProfileInformationData
 }
 
@@ -32,7 +34,6 @@ export function GetFavouriteChampion (region, encryptedSummonerId) {
   if (encryptedSummonerId === undefined) {
     encryptedSummonerId = 'K_-5ViXwOwCnGN8l6h2b2IcUy7AZKt5ZYTUZeF4WUL8fDdvt'
   }
-  console.log(encryptedSummonerId)
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/' + encryptedSummonerId + '?api_key=' + key
   const [post, setPost] = useState([])
 
@@ -68,7 +69,6 @@ function GetChampionList () {
       setPost(response.data.data)
     })
   }, [baseURL])
-  // console.log(post)
 
   return post
 }
@@ -130,4 +130,87 @@ function GetPersonalRatingPreparedObject (data) {
     }
   }
   return PersonalRatingData
+}
+
+export function GetRecentMatches (region, puuid) {
+  if (puuid === undefined) {
+    puuid = 'ZOn0zWMumK1GSOskBsmVw-Mjc5w9Nv0XgoNGZj7dJcuqp3oSPiOVueIDUXFp1IN2SoTffY2b4-J_Vg'
+    region = 'euw1'
+  }
+  const objectArrayMatches = []
+  const listMatches = GetListMatches(region, puuid)
+
+  for (let i = 0; i < 1; i++) {
+    const match = GetMatchData(region, listMatches[i])
+    objectArrayMatches.push(GetRecentMatchPreparedObject(match, puuid, listMatches.length))
+  }
+
+  return objectArrayMatches
+}
+
+function GetRecentMatchPreparedObject (matchData, puuid, numberOfList) {
+  const matchPreparedObject = {
+    graphic: {
+      text: '70%',
+      winPercentage: 70,
+      lossesPercentage: 30
+    }
+  }
+  return matchPreparedObject
+}
+
+function GetMatchData (region, matchId) {
+  if (matchId === undefined) {
+    matchId = 'EUW1_6239031910'
+    region = 'euw1'
+  }
+  const continent = RegionToContinent(region)
+
+  const baseURL = 'https://' + continent + '.api.riotgames.com/lol/match/v5/matches/' + matchId + '?api_key=' + key
+  const [post, setPost] = useState([])
+
+  useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data.info)
+    })
+  }, [baseURL])
+
+  return post
+}
+
+function GetListMatches (region, puuid) {
+  if (puuid === undefined) {
+    puuid = 'ZOn0zWMumK1GSOskBsmVw-Mjc5w9Nv0XgoNGZj7dJcuqp3oSPiOVueIDUXFp1IN2SoTffY2b4-J_Vg'
+    region = 'euw1'
+  }
+  const baseURL = 'https://' + RegionToContinent(region) + '.api.riotgames.com/lol/match/v5/matches/by-puuid/' + puuid + '/ids?start=0&count=5&api_key=' + key
+  // https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/SY-bVFqiL53G50WHkFCQzqj-wOeT5nF0feZ9humez0Fpijlsnc8hcwkfUGCEzTl0fCh_Eyq94MHuOg/ids?start=0&count=20&api_key=RGAPI-b6f2eeaa-c859-45a8-9568-6f94c5f0eb0a
+  const [post, setPost] = useState([])
+
+  useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data)
+    })
+  }, [baseURL])
+  console.log(post)
+  return post
+}
+
+function RegionToContinent (region) {
+  let continent
+  switch (region) {
+    case 'euw1':
+    case 'euw2':
+      continent = 'europe'
+      break
+    case 'br1':
+    case 'la1':
+    case 'la2':
+    case 'na1':
+      continent = 'americas'
+      break
+    default:
+      break
+  }
+  return continent
 }
