@@ -5,7 +5,6 @@ export const ProfileInformationContainer = styled.div`
     height: 40vw;
     text-align: center;
     background: white;
-    border: 2px solid blue;
 `
 
 export const ProfileInformationTitle = styled.h2`

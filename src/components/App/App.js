@@ -1,67 +1,58 @@
 import React, { useState } from 'react'
 import NavigationBar from '../NavigationBar'
-import { GetSummoner, GetListMatches, GetNumWinLosesMatches } from '../../helpers/api.helper'
+import { GetSummoner, GetFavouriteChampion, GetPersonalRating } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
 import RecentMatches from '../RecentMatches'
+import ProfileInformationMockData from '../../resources/DataSamples/ProfileInformation'
 import FavouriteChampionMockData from '../../resources/DataSamples/FavouriteChampion'
 import PersonalRatingMockData from '../../resources/DataSamples/PersonalRating'
 import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
 
 function App () {
   const [getData, setGetData] = useState(['DinoKlk', 'euw1'])
+  let region = getData[1].toLowerCase()
+  let gameName = getData[0]
+
+  let userInfo
 
   const handleOnChange = (getData) => {
     setGetData(getData)
   }
-
-  const classifyByRegions = (region) => {
-    let continent
-    switch (region) {
-      case 'euw1':
-      case 'euw2':
-        continent = 'europe'
-        break
-      case 'br1':
-      case 'la1':
-      case 'la2':
-      case 'na1':
-        continent = 'americas'
-        break
-      default:
-        break
-    }
-    return continent
+  if (getData[1] !== undefined) {
+    region = getData[1].toLowerCase()
+    gameName = getData[0]
   }
+  userInfo = GetSummoner(region, gameName)
+  // console.log(userInfo)
+  let favouriteChamp
+  let personalRating
 
-  const userInfo = GetSummoner(getData[1], getData[0])
-
-  const matchList = GetListMatches(userInfo.puuid, classifyByRegions(getData[1]))
-  const numWinLoses = GetNumWinLosesMatches(matchList, classifyByRegions(getData[1])).teams
-  if (numWinLoses !== undefined) {
-    for (let i = 0; i < numWinLoses.length; i++) {
-      console.log(i)
-      console.log(numWinLoses[i])
-      /* if (numWinLoses[i].win) {
-        console.log
-      } */
-    }
-  }
-
+  favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
+  personalRating = GetPersonalRating(region, userInfo.encryptedSummonerId)
+  // console.log(favouriteChamp)
   return (
     <div>
       <NavigationBar setGetData={handleOnChange} />
       {!userInfo
         ? null
         : <div>
+          <div>{userInfo.name}</div>
+          <div>{userInfo.puuid}</div>
+          <div>{userInfo.summonerLevel}</div>
+          {personalRating === undefined ? <div /> : <PersonalRating data={personalRating} />}
+          {userInfo === undefined ? <div /> : <ProfileInformation data={userInfo} />}
+          {favouriteChamp === undefined ? <div /> : <FavouriteChampion data={favouriteChamp} />}
+
           <PlayerAverageCard />
+
           <RecentMatches data={RecentMatchesMockData} />
-          <ProfileInformation data={userInfo} />
-          <FavouriteChampion data={FavouriteChampionMockData} />
+
           <PersonalRating data={PersonalRatingMockData} />
-        </div>}
+          </div>}
+
     </div>
   )
 }

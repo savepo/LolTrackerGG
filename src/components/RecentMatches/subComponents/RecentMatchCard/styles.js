@@ -16,7 +16,7 @@ export const RecentMatchCardPictureContainer = styled.div`
 `
 
 export const RecentMatchCardPicture = styled.img`
-    width: 70%;
+    height: 6vw;
     border-radius: 10rem;
 `
 

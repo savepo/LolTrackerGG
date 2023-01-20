@@ -1,19 +1,17 @@
-// import { data } from './AppMockItems/peopleInformation'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import PersonalRating from '../components/PersonalRating'
 
-const key = 'RGAPI-b6f2eeaa-c859-45a8-9568-6f94c5f0eb0a'
+const key = 'RGAPI-eb89a4a5-5c87-4108-b4cd-ab50b304e647'
 
 export function GetSummoner (region, username) {
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key
   const [post, setPost] = useState([])
 
   useEffect(() => {
-    async function getPost () {
-      const response = await axios.get(baseURL)
+    axios.get(baseURL).then((response) => {
       setPost(response.data)
-    }
-    getPost()
+    })
   }, [baseURL])
 
   return GetSummonerPreparedObject(post)
@@ -24,13 +22,16 @@ function GetSummonerPreparedObject (data) {
     name: data.name,
     level: data.summonerLevel,
     iconSrc: 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/' + data.profileIconId + '.png',
-    encryptedSummonerId: data.id,
-    puuid: data.puuid === undefined ? 'SY-bVFqiL53G50WHkFCQzqj-wOeT5nF0feZ9humez0Fpijlsnc8hcwkfUGCEzTl0fCh_Eyq94MHuOg' : 'SY-bVFqiL53G50WHkFCQzqj-wOeT5nF0feZ9humez0Fpijlsnc8hcwkfUGCEzTl0fCh_Eyq94MHuOg'
+    encryptedSummonerId: data.id
   }
   return ProfileInformationData
 }
 
 export function GetFavouriteChampion (region, encryptedSummonerId) {
+  if (encryptedSummonerId === undefined) {
+    encryptedSummonerId = 'K_-5ViXwOwCnGN8l6h2b2IcUy7AZKt5ZYTUZeF4WUL8fDdvt'
+  }
+  console.log(encryptedSummonerId)
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/' + encryptedSummonerId + '?api_key=' + key
   const [post, setPost] = useState([])
 
@@ -58,7 +59,7 @@ export function GetFavouriteChampion (region, encryptedSummonerId) {
 }
 
 function GetChampionList () {
-  const baseURL = 'http://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json'
+  const baseURL = 'https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json'
   const [post, setPost] = useState([])
 
   useEffect(() => {
@@ -66,13 +67,16 @@ function GetChampionList () {
       setPost(response.data.data)
     })
   }, [baseURL])
+  // console.log(post)
+
   return post
 }
 
-// get the recent 20 matches played
-export function GetListMatches (summonerId, region) {
-  const baseURL = 'https://' + region + '.api.riotgames.com/lol/match/v5/matches/by-puuid/' + summonerId + '/ids?start=0&count=10&api_key=' + key
-  // https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/SY-bVFqiL53G50WHkFCQzqj-wOeT5nF0feZ9humez0Fpijlsnc8hcwkfUGCEzTl0fCh_Eyq94MHuOg/ids?start=0&count=20&api_key=RGAPI-b6f2eeaa-c859-45a8-9568-6f94c5f0eb0a
+export function GetPersonalRating (region, encryptedSummonerId) {
+  if (encryptedSummonerId === undefined) {
+    encryptedSummonerId = 'K_-5ViXwOwCnGN8l6h2b2IcUy7AZKt5ZYTUZeF4WUL8fDdvt'
+  }
+  const baseURL = 'https://' + region + '.api.riotgames.com/lol/league/v4/entries/by-summoner/' + encryptedSummonerId + '?api_key=' + key
   const [post, setPost] = useState([])
 
   useEffect(() => {
@@ -80,36 +84,49 @@ export function GetListMatches (summonerId, region) {
       setPost(response.data)
     })
   }, [baseURL])
-  return post
+  // console.log(post[0])
+  return GetPersonalRatingPreparedObject(post)
 }
 
-export function GetNumWinLosesMatches (matchList, region) {
-  const [post, setPost] = useState([])
-
-  useEffect(() => {
-    for (let i = 0; i < matchList.length; i++) {
-      const baseURL = 'https://' + region + '.api.riotgames.com/lol/match/v5/matches/' + matchList[i] + '?api_key=' + key
-      axios.get(baseURL).then((response) => {
-        const data = response.data.info
-        setPost(data)
-      })
+function GetPersonalRatingPreparedObject (data) {
+  const PersonalRatingData = {
+    RankedSolo: {
+      text: 'Ranked Solo',
+      tier: 'Unranked',
+      rank: '',
+      leaguePoints: 0,
+      wins: 0,
+      losses: 0
+    },
+    RankedFlex: {
+      text: 'Ranked Flex',
+      tier: 'Unranked',
+      rank: '',
+      leaguePoints: 0,
+      wins: 0,
+      losses: 0
     }
-  }, [matchList, region])
+  }
+  for (let i = 0; i < data.length; i++) {
+    switch (data[i].queueType) {
+      case 'RANKED_FLEX_SR':
+        PersonalRatingData.RankedFlex.tier = data[i].tier
+        PersonalRatingData.RankedFlex.rank = data[i].rank
+        PersonalRatingData.RankedFlex.leaguePoints = data[i].leaguePoints
+        PersonalRatingData.RankedFlex.wins = data[i].wins
+        PersonalRatingData.RankedFlex.losses = data[i].losses
+        break
 
-  return post
-  /* const [wins, setWins] = useState(0)
-  const [loses, setLoses] = useState(0)
-
-  useEffect(() => {
-    for (let i = 0; i < matchList.length; i++) {
-      const baseURL = 'https://' + region + '.api.riotgames.com/lol/match/v5/matches/' + matchList[i] + '?api_key=' + key
-      axios.get(baseURL).then((response) => {
-        const data = response.data
-        const teams = data.info.teams
-        console.log(teams.win)
-      })
+      case 'RANKED_SOLO_5x5':
+        PersonalRatingData.RankedSolo.tier = data[i].tier
+        PersonalRatingData.RankedSolo.rank = data[i].rank
+        PersonalRatingData.RankedSolo.leaguePoints = data[i].leaguePoints
+        PersonalRatingData.RankedSolo.wins = data[i].wins
+        PersonalRatingData.RankedSolo.losses = data[i].losses
+        break
+      default:
+        break
     }
-  }, [wins, region])
-
-  return { wins, loses } */
+  }
+  return PersonalRatingData
 }
