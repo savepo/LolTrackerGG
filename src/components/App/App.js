@@ -13,28 +13,36 @@ import PersonalRatingMockData from '../../resources/DataSamples/PersonalRating'
 import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
 
 function App () {
-  const [getData, setGetData] = useState(['DinoKlk', 'euw1'])
-  let region = getData[1].toLowerCase()
-  let gameName = getData[0]
+  const [getData, setGetData] = useState([])
+  const [summonerData, setSummonerData] = useState()
+  let region
+  let gameName
 
   let userInfo
 
-  const handleOnChange = (getData) => {
-    setGetData(getData)
+  const handleOnChange = (data) => {
+    setGetData(data)
+    userInfo = GetSummoner(data[1], data[0])
+    console.log(userInfo.PromiseResult)
+
+    // queryInformation()
+  }
+
+  const QueryInformation = () => {
+    userInfo = GetSummoner(region, gameName)
   }
   if (getData[1] !== undefined) {
     region = getData[1].toLowerCase()
     gameName = getData[0]
   }
-  userInfo = GetSummoner(region, gameName)
   // console.log(userInfo)
   let favouriteChamp
   let personalRating
   let recentMatchesData
 
-  favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
-  personalRating = GetPersonalRating(region, userInfo.encryptedSummonerId)
-  recentMatchesData = GetRecentMatches(region, userInfo.puuid)[0]
+  // favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
+  // personalRating = GetPersonalRating(region, userInfo.encryptedSummonerId)
+  // recentMatchesData = GetRecentMatches(region, userInfo.puuid)[0]
   // console.log(Object.values(recentMatchesData))
   return (
     <div>
@@ -63,7 +71,7 @@ function App () {
 
           <RecentMatches data={RecentMatchesMockData} />
           {/* <RecentMatches /> */}
-          </div>}
+        </div>}
 
     </div>
   )

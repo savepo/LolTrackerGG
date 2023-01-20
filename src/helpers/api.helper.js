@@ -5,17 +5,31 @@ import PersonalRating from '../components/PersonalRating'
 
 const key = 'RGAPI-eb89a4a5-5c87-4108-b4cd-ab50b304e647'
 
-export function GetSummoner (region, username) {
+export async function GetSummoner (region, username) {
   const baseURL = 'https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key
-  const [post, setPost] = useState([])
+  let userData
+  // const [post, setPost] = useState([])
 
-  useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setPost(response.data)
-    })
-  }, [baseURL])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const artifactsData = await GetAllArtifactsData()
+  //     setPost(artifactsData)
+  //     setLoading(false)
+  //   }
+  //   fetchData()
+  // }, [])
+  // console.log(await getArtifactsNames(region, username))
+  console.log(region)
+  if (region !== undefined && username !== undefined) {
+    userData = await getSummonerData(region, username)
+    // console.log(userData)
+  }
+  return userData
+}
 
-  return GetSummonerPreparedObject(post)
+async function getSummonerData (region, username) {
+  const userData = await axios.get('https://' + region + '.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + username + '?api_key=' + key).then((response) => { return response })
+  return userData
 }
 
 function GetSummonerPreparedObject (data) {
@@ -192,7 +206,6 @@ function GetListMatches (region, puuid) {
       setPost(response.data)
     })
   }, [baseURL])
-  console.log(post)
   return post
 }
 
