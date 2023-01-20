@@ -19,6 +19,7 @@ export const DropdownMenuOptions = styled.div`
  width: 13rem;
  margin-left: 40px;
  border: 1px solid #ccc;
+ background-color: #ccc;
  ${withTheme('border-radius', 'sizes.rem03')}
  overflow: auto;
 `
