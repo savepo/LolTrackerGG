@@ -60,7 +60,7 @@ export function GetFavouriteChampion (region, encryptedSummonerId) {
   return FavouriteChampionData
 }
 
-function GetChampionList () {
+export function GetChampionList () {
   const baseURL = 'https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json'
   const [post, setPost] = useState([])
 
