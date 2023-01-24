@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot, GraphicSlot } from './styles'
 import NavigationBar from '../NavigationBar'
-import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches } from '../../helpers/api.helper'
+import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches, GetAvarageStatsFromLastMatches } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
@@ -11,39 +11,29 @@ import ProfileInformationMockData from '../../resources/DataSamples/ProfileInfor
 import FavouriteChampionMockData from '../../resources/DataSamples/FavouriteChampion'
 import PersonalRatingMockData from '../../resources/DataSamples/PersonalRating'
 import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
+import { ChampionCardRecentMockData } from '../../resources/DataSamples/ChampionCardRecentPlayed'
 
 function App () {
   const [getData, setGetData] = useState([])
   const [summonerData, setSummonerData] = useState()
-  let region
-  let gameName
+  const [personalRatingData, setPersonalRating] = useState()
+  const [favouriteChampionData, setFavouriteChampion] = useState()
 
-  let userInfo
-
-  const handleOnChange = (data) => {
+  const handleOnChange = async (data) => {
     setGetData(data)
-    userInfo = GetSummoner(data[1], data[0])
-    console.log(userInfo.PromiseResult)
-
-    // queryInformation()
+    const summonerData = await GetSummoner(data[1], data[0])
+    setSummonerData(summonerData)
+    if (summonerData !== undefined) {
+      const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
+      const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
+      setPersonalRating(personalRatingData)
+      setFavouriteChampion(favouriteChampionData)
+      // console.log(summonerData)
+      console.log(summonerData.puuid)
+      console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
+    }
   }
 
-  const QueryInformation = () => {
-    userInfo = GetSummoner(region, gameName)
-  }
-  if (getData[1] !== undefined) {
-    region = getData[1].toLowerCase()
-    gameName = getData[0]
-  }
-  // console.log(userInfo)
-  let favouriteChamp
-  let personalRating
-  let recentMatchesData
-
-  // favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
-  // personalRating = GetPersonalRating(region, userInfo.encryptedSummonerId)
-  // recentMatchesData = GetRecentMatches(region, userInfo.puuid)[0]
-  // console.log(Object.values(recentMatchesData))
   return (
     <div>
       <TitleContainer>
@@ -51,25 +41,25 @@ function App () {
       </TitleContainer>
       <NavigationBar setGetData={handleOnChange} />
 
-      {!userInfo
+      {!summonerData
         ? null
         : <div>
           <MainSlot>
             <ProfileInfoSlot>
-              {userInfo === undefined ? <div /> : <ProfileInformation data={userInfo} />}
+              {summonerData === undefined ? <div /> : <ProfileInformation data={summonerData} />}
             </ProfileInfoSlot>
             <PersonalRatingSlot>
-              {personalRating === undefined ? <div /> : <PersonalRating data={personalRating} />}
+              {personalRatingData === undefined ? <div /> : <PersonalRating data={personalRatingData} />}
             </PersonalRatingSlot>
             <FavouriteChampionSlot>
-              {favouriteChamp === undefined ? <div /> : <FavouriteChampion data={favouriteChamp} />}
+              {favouriteChampionData === undefined ? <div /> : <FavouriteChampion data={favouriteChampionData} />}
             </FavouriteChampionSlot>
           </MainSlot>
           <GraphicSlot>
-            <PlayerAverageCard data={recentMatchesData} />
+            <PlayerAverageCard data={ChampionCardRecentMockData} />
           </GraphicSlot>
 
-          <RecentMatches data={RecentMatchesMockData} />
+          {/* <RecentMatches data={RecentMatchesMockData} /> */}
           {/* <RecentMatches /> */}
         </div>}
 

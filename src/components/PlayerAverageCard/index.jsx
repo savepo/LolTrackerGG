@@ -9,8 +9,8 @@ const PlayerAverageCard = ({ data }) => {
   return (
     <CardStats>
       <Graphic graphicData={data.graphic} />
-      <AverageStatsPlayer kills={7.8} deaths={7.7} assits={7.5} />
-      <ChampionCardRecentPlayed championIcon={dataChampion.championSrc} rate={dataChampion.rate} wins={dataChampion.win} loses={dataChampion.loses} kda={dataChampion.kda} />
+      <AverageStatsPlayer kills={data.avarageKills} deaths={data.avarageDeaths} assits={data.avarageAssists} />
+      <ChampionCardRecentPlayed championIcon={data.championSrc} rate={data.rate} wins={data.win} loses={data.loses} kda={data.kda} />
     </CardStats>
   )
 }
