@@ -5,16 +5,16 @@ import InfoWinLosesMatches from '../InfoWinLoses'
 import { GraphicContainer } from './styles'
 
 ChartJS.register(ArcElement, Tooltip)
-const Graphic = ({ numWinMatches, numLosesMatches, totalastMatches }) => {
-  const centerText = '58%'
-  const win = 60
-  const loses = 40
+const Graphic = ({ graphicData }) => {
+  const centerText = graphicData.text
+  const win = graphicData.winPercentage
+  const losses = graphicData.lossesPercentage
   const data = {
     labels: ['Win', 'Loses'],
     datasets: [
       {
         label: 'Percentage ratio',
-        data: [win, loses],
+        data: [win, losses],
         backgroundColor: [
           'rgba(99, 126, 223, 1)',
           ' rgba(229, 87, 87, 1)'

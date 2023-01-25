@@ -2,9 +2,10 @@ import styled from '@emotion/styled'
 import { withTheme } from '../../helpers/styles.helper'
 
 export const PersonalRatingContainer = styled.div`
-    width: 24rem;
-    height: 13rem;
+    width: 100%;
+    height: 100%;
     text-align: center;
+    margin-top: 3.5rem;
 `
 
 export const PersonalRatingTitle = styled.h2`
@@ -82,5 +83,5 @@ export const PersonalRatingImageContainer = styled.div`
 `
 
 export const PersonalRatingRankPicture = styled.img`   
-    height: 70%;
+    width: 6vw;
 `

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot, GraphicSlot } from './styles'
 import NavigationBar from '../NavigationBar'
-import { GetSummoner, GetFavouriteChampion, GetPersonalRating } from '../../helpers/api.helper'
+import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches, GetAvarageStatsFromLastMatches } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
@@ -10,48 +11,57 @@ import ProfileInformationMockData from '../../resources/DataSamples/ProfileInfor
 import FavouriteChampionMockData from '../../resources/DataSamples/FavouriteChampion'
 import PersonalRatingMockData from '../../resources/DataSamples/PersonalRating'
 import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
+import { ChampionCardRecentMockData } from '../../resources/DataSamples/ChampionCardRecentPlayed'
 
 function App () {
-  const [getData, setGetData] = useState(['DinoKlk', 'euw1'])
-  let region = getData[1].toLowerCase()
-  let gameName = getData[0]
+  const [getData, setGetData] = useState([])
+  const [summonerData, setSummonerData] = useState()
+  const [personalRatingData, setPersonalRating] = useState()
+  const [favouriteChampionData, setFavouriteChampion] = useState()
 
-  let userInfo
-
-  const handleOnChange = (getData) => {
-    setGetData(getData)
+  const handleOnChange = async (data) => {
+    setGetData(data)
+    const summonerData = await GetSummoner(data[1], data[0])
+    setSummonerData(summonerData)
+    if (summonerData !== undefined) {
+      const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
+      const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
+      setPersonalRating(personalRatingData)
+      setFavouriteChampion(favouriteChampionData)
+      // console.log(summonerData)
+      console.log(summonerData.puuid)
+      console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
+    }
   }
-  if (getData[1] !== undefined) {
-    region = getData[1].toLowerCase()
-    gameName = getData[0]
-  }
-  userInfo = GetSummoner(region, gameName)
-  // console.log(userInfo)
-  let favouriteChamp
-  let personalRating
 
-  favouriteChamp = GetFavouriteChampion(region, userInfo.encryptedSummonerId)
-  personalRating = GetPersonalRating(region, userInfo.encryptedSummonerId)
-  // console.log(favouriteChamp)
   return (
     <div>
+      <TitleContainer>
+        <Title>LOL TRACKER GG</Title>
+      </TitleContainer>
       <NavigationBar setGetData={handleOnChange} />
-      {!userInfo
+
+      {!summonerData
         ? null
         : <div>
-          <div>{userInfo.name}</div>
-          <div>{userInfo.puuid}</div>
-          <div>{userInfo.summonerLevel}</div>
-          {personalRating === undefined ? <div /> : <PersonalRating data={personalRating} />}
-          {userInfo === undefined ? <div /> : <ProfileInformation data={userInfo} />}
-          {favouriteChamp === undefined ? <div /> : <FavouriteChampion data={favouriteChamp} />}
+          <MainSlot>
+            <ProfileInfoSlot>
+              {summonerData === undefined ? <div /> : <ProfileInformation data={summonerData} />}
+            </ProfileInfoSlot>
+            <PersonalRatingSlot>
+              {personalRatingData === undefined ? <div /> : <PersonalRating data={personalRatingData} />}
+            </PersonalRatingSlot>
+            <FavouriteChampionSlot>
+              {favouriteChampionData === undefined ? <div /> : <FavouriteChampion data={favouriteChampionData} />}
+            </FavouriteChampionSlot>
+          </MainSlot>
+          <GraphicSlot>
+            <PlayerAverageCard data={ChampionCardRecentMockData} />
+          </GraphicSlot>
 
-          <PlayerAverageCard />
-
-          <RecentMatches data={RecentMatchesMockData} />
-
-          <PersonalRating data={PersonalRatingMockData} />
-          </div>}
+          {/* <RecentMatches data={RecentMatchesMockData} /> */}
+          {/* <RecentMatches /> */}
+        </div>}
 
     </div>
   )
