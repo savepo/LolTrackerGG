@@ -18,6 +18,7 @@ function App () {
   const [summonerData, setSummonerData] = useState()
   const [personalRatingData, setPersonalRating] = useState()
   const [favouriteChampionData, setFavouriteChampion] = useState()
+  const [playerAvarageCardData, setPlayerAvarageCardData] = useState()
 
   const handleOnChange = async (data) => {
     setGetData(data)
@@ -26,11 +27,14 @@ function App () {
     if (summonerData !== undefined) {
       const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
       const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
+      const playerAvarageCardData = await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 20)
       setPersonalRating(personalRatingData)
       setFavouriteChampion(favouriteChampionData)
+      setPlayerAvarageCardData(playerAvarageCardData)
+
       // console.log(summonerData)
-      console.log(summonerData.puuid)
-      console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
+      // console.log(summonerData.puuid)
+      // console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
     }
   }
 
@@ -56,9 +60,8 @@ function App () {
             </FavouriteChampionSlot>
           </MainSlot>
           <GraphicSlot>
-            <PlayerAverageCard data={ChampionCardRecentMockData} />
+            {favouriteChampionData === undefined ? <div /> : <PlayerAverageCard data={playerAvarageCardData} />}
           </GraphicSlot>
-
           {/* <RecentMatches data={RecentMatchesMockData} /> */}
           {/* <RecentMatches /> */}
         </div>}

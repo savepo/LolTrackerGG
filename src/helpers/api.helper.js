@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PersonalRating from '../components/PersonalRating'
 
-const key = 'RGAPI-02c3b5dc-0aaa-4569-942e-0a5c19f0e5a9'
+const key = 'RGAPI-32a7a029-6cd3-4030-9d73-c0b374ab5470'
 
 // SUMMONER BASIC DATA
 export async function GetSummoner (region, username) {
@@ -179,34 +179,32 @@ export async function GetAvarageStatsFromLastMatches (region, puuid, start, coun
   try {
     const listOfMatches = await GetListMatches(region, puuid, start, count)
 
-    console.log(listOfMatches)
-
     matchesCount = listOfMatches.length
     for (let i = 0; i < listOfMatches.length; i++) {
       const matchData = await GetMatchData(region, listOfMatches[i])
 
-      const test = Object.values(matchData.participants)
-      console.log(test[0])
-
       if (!matchData || !matchData) {
         continue
       }
-      const participant = matchData.info.participants.find(p => p.player.puuid === puuid)
+
+      const participantsArray = Object.values(matchData.participants)
+
+      const participant = participantsArray.find(p => p.puuid === puuid)
+
       if (!participant) {
         continue
       }
-      if (!participant.kills || !participant.deaths || !participant.assists || !participant.win) {
-        continue
-      }
+
       totalKills += participant.kills
       totalDeaths += participant.deaths
       totalAssists += participant.assists
-      if (participant.win) {
+      if (participant.win === true) {
         wins++
       } else {
         loses++
       }
       championId = participant.championId
+      console.log(championId)
     }
   } catch (error) {
     console.log(error)
@@ -217,18 +215,16 @@ export async function GetAvarageStatsFromLastMatches (region, puuid, start, coun
     return { error: 'No matches found' }
   }
 
-  const avarageKills = totalKills / matchesCount
-  const avarageDeaths = totalDeaths / matchesCount
-  const avarageAssists = totalAssists / matchesCount
-  const kda = (totalKills + totalAssists) / totalDeaths
-  let rate
-  if (wins + loses === 0) {
-    rate = 0
-  } else {
-    rate = (wins / (wins + loses)) * 100
+  const avarageKills = (totalKills / matchesCount).toFixed(1)
+  const avarageDeaths = (totalDeaths / matchesCount).toFixed(1)
+  const avarageAssists = (totalAssists / matchesCount).toFixed(1)
+  const kda = ((totalKills + totalAssists) / totalDeaths).toFixed(1)
+  let rate = 0
+  if (wins + loses !== 0) {
+    rate = ((wins / (wins + loses)) * 100).toFixed(0)
   }
-  const championSrc = `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${championId}.png`
 
+  const championSrc = 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/Anivia.png'
   return {
     championSrc,
     avarageKills,
@@ -240,8 +236,10 @@ export async function GetAvarageStatsFromLastMatches (region, puuid, start, coun
     kda,
     graphic: {
       text: `${rate}%`,
-      winPercentage: rate,
-      lossesPercentage: 100 - rate
+      winNum: wins,
+      losesNum: loses,
+      winsPercentage: rate,
+      losesPercentage: 100 - rate
     }
   }
 }
