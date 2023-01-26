@@ -1,13 +1,15 @@
 import React from 'react'
 import { RecentMatchCardContainer, RecentMatchCardPictureContainer, RecentMatchCardPicture, RecentMatchCardInformationContainer, RecentMatchCardInformationRow, RecentMatchCardGameStatusAndType, RecentMatchCardInformationGameStatus, Victory, Defeat, GameType, KillsDeathsAssistsContainer, KillsDeathsAssists, Spacer, InfoContainer, Title, Text, SpellsContainer, Spell, SummonerSpellImage, PerksContainer, Perk, SummonerPerkImage, ItemsContainer, SummonerItemImage } from './styles'
 
-// Navitem Component
 const RecentMatchCard = ({ data }) => {
-  // Returns the component
+
+  //  console.log(getIconChampionSrc(data.championId))
+  const iconSource = await getIconChampionSrc()
+
   return (
     <RecentMatchCardContainer>
       <RecentMatchCardPictureContainer>
-        <RecentMatchCardPicture src={data.championSrc} />
+        <RecentMatchCardPicture src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${5}.png`} />
       </RecentMatchCardPictureContainer>
       <RecentMatchCardInformationContainer>
         <RecentMatchCardInformationRow>
@@ -25,7 +27,7 @@ const RecentMatchCard = ({ data }) => {
           <Spacer />
           <InfoContainer>
             <Title>Minions</Title>
-            <Text>{data.minions}</Text>
+            <Text>{data.totalMinionsKilled}</Text>
           </InfoContainer>
           <Spacer />
           <InfoContainer>

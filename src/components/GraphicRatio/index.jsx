@@ -4,6 +4,7 @@ import { Doughnut } from 'react-chartjs-2'
 import InfoWinLosesMatches from '../InfoWinLoses'
 import { GraphicContainer } from './styles'
 
+
 ChartJS.register(ArcElement, Tooltip)
 const Graphic = ({ graphicData }) => {
   const centerText = graphicData.text
@@ -53,7 +54,7 @@ const Graphic = ({ graphicData }) => {
 
   return (
     <GraphicContainer>
-      <InfoWinLosesMatches numWinMatches={11} numLosesMatches={8} totalastMatches={totalastMatches} />
+      <InfoWinLosesMatches numWinMatches={11} numLosesMatches={8} totalastMatches={20} />
       <Doughnut data={data} plugins={plugins} />
     </GraphicContainer>
 

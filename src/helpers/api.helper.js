@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PersonalRating from '../components/PersonalRating'
+import { type } from '@testing-library/user-event/dist/type'
 
-const key = 'RGAPI-02c3b5dc-0aaa-4569-942e-0a5c19f0e5a9'
+const key = 'RGAPI-5b5beefb-d0f2-4a59-b873-ff91a873044a'
 
 // SUMMONER BASIC DATA
 export async function GetSummoner (region, username) {
@@ -42,14 +43,14 @@ export async function getFavouriteChampionPreparedObject (data) {
     if (keyToNumber === championIdToNumber) {
       FavouriteChampionData = {
         name: championList[i].name,
-        championSrc: `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championList[i].id}_0.jpg`
+        championSrc: `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championList[i].id}_0.jpg`
       }
     }
   }
   return FavouriteChampionData
 }
 
-async function GetChampionList () {
+export async function GetChampionList () {
   try {
     const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json')
     return response.data.data
@@ -118,18 +119,6 @@ function GetPersonalRatingPreparedObject (data) {
     }
   }
   return PersonalRatingData
-}
-
-export async function GetRecentMatches (region, puuid) {
-  // const objectArrayMatches = []
-  // const listMatches = GetListMatches(region, puuid)
-
-  // for (let i = 0; i < 1; i++) {
-  //   const match = GetMatchData(region, listMatches[i])
-  //   objectArrayMatches.push(GetRecentMatchPreparedObject(match, puuid, listMatches.length))
-  // }
-  console.log(await GetListMatches(region, puuid, 0, 5))
-  return true
 }
 
 function GetRecentMatchPreparedObject (matchData, puuid, numberOfList) {
@@ -243,6 +232,55 @@ export async function GetAvarageStatsFromLastMatches (region, puuid, start, coun
       lossesPercentage: 100 - rate
     }
   }
+}
+
+export async function getInfoMatch (region, puuid, start, count) {
+  const matchInfoObject = []
+  const listOfMatches = await GetListMatches(region, puuid, start, count)
+  const matchDataPromises = listOfMatches.map(async matchId => {
+    return await GetMatchData(region, matchId)
+  })
+
+  const matchData = await Promise.all(matchDataPromises)
+
+  matchData.forEach((getMatchData, index) => {
+    const matchId = listOfMatches[index]
+    const participants = getMatchData.participants
+    const participant = participants.find(p => p.puuid === puuid)
+
+    matchInfoObject.push({
+      matchIden: matchId,
+      typeMatch: getMatchData.queueId,
+      gameTime: getMatchData.gameDuration,
+      gameEndTimestamp: getMatchData.gameEndTimestamp,
+      gameMode: getMatchData.gameMode,
+      kills: participant.kills,
+      assists: participant.assists,
+      deaths: participant.deaths,
+      totalMinionsKilled: participant.totalMinionsKilled,
+      goldEarned: participant.goldEarned,
+      win: participant.win,
+      item0: participant.item0,
+      item1: participant.item1,
+      item2: participant.item2,
+      item3: participant.item3,
+      item4: participant.item4,
+      item5: participant.item5,
+      item6: participant.item6,
+      champLevel: participant.champLevel,
+      championId: participant.championId,
+      championName: participant.championName
+    })
+  })
+
+  return matchInfoObject
+}
+
+export async function getIconChampionSrc (id) {
+  const listChampions = Object.values(await GetChampionList())
+  // console.log(typeof listChampions)
+  const championId = await listChampions.find(c => Number(c.key) === Number(id))
+  return championId.id
 }
 
 function RegionToContinent (region) {

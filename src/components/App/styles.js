@@ -41,3 +41,4 @@ export const GraphicSlot = styled.div`
     width: 80%;
     height: 30%;
 `
+export const RecentMatchesSlot = styled.div``

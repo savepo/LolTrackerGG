@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot, GraphicSlot } from './styles'
+import {
+  TitleContainer,
+  Title,
+  MainSlot,
+  ProfileInfoSlot,
+  PersonalRatingSlot,
+  FavouriteChampionSlot,
+  GraphicSlot,
+  RecentMatchesSlot
+} from './styles'
 import NavigationBar from '../NavigationBar'
-import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches, GetAvarageStatsFromLastMatches } from '../../helpers/api.helper'
+import {
+  GetSummoner,
+  GetFavouriteChampion,
+  GetPersonalRating,
+  getInfoMatch,
+  getIconChampionSrc
+} from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
 import RecentMatches from '../RecentMatches'
-import ProfileInformationMockData from '../../resources/DataSamples/ProfileInformation'
-import FavouriteChampionMockData from '../../resources/DataSamples/FavouriteChampion'
-import PersonalRatingMockData from '../../resources/DataSamples/PersonalRating'
-import RecentMatchesMockData from '../../resources/DataSamples/RecentMatches'
 import { ChampionCardRecentMockData } from '../../resources/DataSamples/ChampionCardRecentPlayed'
 
 function App () {
@@ -18,6 +29,7 @@ function App () {
   const [summonerData, setSummonerData] = useState()
   const [personalRatingData, setPersonalRating] = useState()
   const [favouriteChampionData, setFavouriteChampion] = useState()
+  const [infoMatch, setInfoMatch] = useState()
 
   const handleOnChange = async (data) => {
     setGetData(data)
@@ -26,14 +38,14 @@ function App () {
     if (summonerData !== undefined) {
       const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
       const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
+      const infoMatch = await getInfoMatch(data[1], summonerData.puuid, 0, 5)
       setPersonalRating(personalRatingData)
       setFavouriteChampion(favouriteChampionData)
-      // console.log(summonerData)
-      console.log(summonerData.puuid)
-      console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
+      setInfoMatch(infoMatch)
+      console.log(infoMatch)
+    //  console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
     }
   }
-
   return (
     <div>
       <TitleContainer>
@@ -58,7 +70,9 @@ function App () {
           <GraphicSlot>
             <PlayerAverageCard data={ChampionCardRecentMockData} />
           </GraphicSlot>
-
+          <RecentMatchesSlot>
+            {infoMatch === undefined ? <div /> : <RecentMatches data={infoMatch} />}
+          </RecentMatchesSlot>
           {/* <RecentMatches data={RecentMatchesMockData} /> */}
           {/* <RecentMatches /> */}
         </div>}
