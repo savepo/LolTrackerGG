@@ -144,3 +144,11 @@ export const SummonerItemImage = styled.img`
     height: 70%;
     border-radius: 0.3rem;
 `
+
+export const EmptySlot = styled.div`
+    height: 70%;
+    border-radius: 0.3rem;
+    background-color: #403d3c;
+    padding: 0px 37px 0px 0px;
+    margin-right: 10px
+`

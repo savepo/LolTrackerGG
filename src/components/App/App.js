@@ -30,6 +30,7 @@ function App () {
   const [personalRatingData, setPersonalRating] = useState()
   const [favouriteChampionData, setFavouriteChampion] = useState()
   const [infoMatch, setInfoMatch] = useState()
+  const [iconChampion, setIconChampion] = useState()
 
   const handleOnChange = async (data) => {
     setGetData(data)
@@ -38,11 +39,13 @@ function App () {
     if (summonerData !== undefined) {
       const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
       const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
-      const infoMatch = await getInfoMatch(data[1], summonerData.puuid, 0, 5)
+      const infoMatch = await getInfoMatch(data[1], summonerData.puuid, 0, 10)
+     
       setPersonalRating(personalRatingData)
       setFavouriteChampion(favouriteChampionData)
       setInfoMatch(infoMatch)
-      console.log(infoMatch)
+         //console.log(iconChampion)
+
     //  console.log(await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 5))
     }
   }

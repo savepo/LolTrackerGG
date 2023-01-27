@@ -1,20 +1,57 @@
 import React from 'react'
-import { RecentMatchCardContainer, RecentMatchCardPictureContainer, RecentMatchCardPicture, RecentMatchCardInformationContainer, RecentMatchCardInformationRow, RecentMatchCardGameStatusAndType, RecentMatchCardInformationGameStatus, Victory, Defeat, GameType, KillsDeathsAssistsContainer, KillsDeathsAssists, Spacer, InfoContainer, Title, Text, SpellsContainer, Spell, SummonerSpellImage, PerksContainer, Perk, SummonerPerkImage, ItemsContainer, SummonerItemImage } from './styles'
+import { RecentMatchCardContainer, 
+  RecentMatchCardPictureContainer, 
+  RecentMatchCardPicture, 
+  RecentMatchCardInformationContainer, 
+  RecentMatchCardInformationRow, 
+  RecentMatchCardGameStatusAndType, 
+  RecentMatchCardInformationGameStatus, 
+  Victory, 
+  Defeat,
+  GameType, 
+  KillsDeathsAssistsContainer, 
+  KillsDeathsAssists, 
+  Spacer, 
+  InfoContainer, 
+  Title, 
+  Text, 
+  SpellsContainer, 
+  Spell, 
+  SummonerSpellImage, 
+  PerksContainer, 
+  Perk, 
+  SummonerPerkImage, 
+  ItemsContainer, 
+  SummonerItemImage,
+  EmptySlot } from './styles'
 
 const RecentMatchCard = ({ data }) => {
 
   //  console.log(getIconChampionSrc(data.championId))
-  const iconSource = await getIconChampionSrc()
+  const secondsToMinute = (seconds) => {
+    const minutes = seconds / 60
+    return minutes.toFixed(2)
+  }
+
+  const timeStampToTime = (gameTimeStamp) => {
+    const date = new Date(gameTimeStamp)
+    return date.toDateString()
+  } 
+
+  const calculateKda = (kills, deaths, assists) => {
+    const kda = (kills + assists) / deaths
+    return kda.toFixed(2)
+  }
 
   return (
     <RecentMatchCardContainer>
       <RecentMatchCardPictureContainer>
-        <RecentMatchCardPicture src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${5}.png`} />
+        <RecentMatchCardPicture src={data.championIconSrc} />
       </RecentMatchCardPictureContainer>
       <RecentMatchCardInformationContainer>
         <RecentMatchCardInformationRow>
           <RecentMatchCardGameStatusAndType>
-            {data.gameStatus === 'Victory' ? <Victory>{data.gameStatus}</Victory> : <Defeat>{data.gameStatus}</Defeat>}
+            {data.win ? <Victory>Victory</Victory> : <Defeat>Defeat</Defeat>}
             <GameType>{data.gameType}</GameType>
           </RecentMatchCardGameStatusAndType>
           <Spacer />
@@ -22,7 +59,7 @@ const RecentMatchCard = ({ data }) => {
           <Spacer />
           <InfoContainer>
             <Title>KDA</Title>
-            <Text>{data.kda}</Text>
+            <Text>{calculateKda(data.kills, data.deaths, data.assists) === "Infinity" ? 'Perfect' : calculateKda(data.kills, data.deaths, data.assists) }</Text>
           </InfoContainer>
           <Spacer />
           <InfoContainer>
@@ -32,17 +69,17 @@ const RecentMatchCard = ({ data }) => {
           <Spacer />
           <InfoContainer>
             <Title>Gold</Title>
-            <Text>{data.gold}</Text>
+            <Text>{data.goldEarned}</Text>
           </InfoContainer>
           <Spacer />
           <InfoContainer>
             <Title>Game time</Title>
-            <Text>{data.gameTime}</Text>
+            <Text>{secondsToMinute(data.gameTime)}</Text>
           </InfoContainer>
           <Spacer />
           <InfoContainer>
             <Title>Date</Title>
-            <Text>{data.date}</Text>
+            <Text>{timeStampToTime(data.gameEndTimestamp)}</Text>
           </InfoContainer>
         </RecentMatchCardInformationRow>
 
@@ -64,26 +101,28 @@ const RecentMatchCard = ({ data }) => {
             </Perk>
           </PerksContainer>
         </RecentMatchCardInformationRow>
-
         <RecentMatchCardInformationRow>
-          <ItemsContainer>
-            <SummonerItemImage src={data.item1Src} />
-          </ItemsContainer>
-          <ItemsContainer>
-            <SummonerItemImage src={data.item2Src} />
-          </ItemsContainer>
-          <ItemsContainer>
-            <SummonerItemImage src={data.item3Src} />
-          </ItemsContainer>
-          <ItemsContainer>
-            <SummonerItemImage src={data.item4Src} />
-          </ItemsContainer>
-          <ItemsContainer>
-            <SummonerItemImage src={data.item5Src} />
-          </ItemsContainer>
-          <ItemsContainer>
-            <SummonerItemImage src={data.item6Src} />
-          </ItemsContainer>
+         {data.item0 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item0}.png`} />
+          </ItemsContainer>}
+          {data.item1 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item1}.png`} />
+          </ItemsContainer>}
+          {data.item2 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item2}.png`} />
+          </ItemsContainer>}
+          {data.item3 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item3}.png`} />
+          </ItemsContainer>}
+          {data.item4 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item4}.png`} />
+          </ItemsContainer>}
+          {data.item5 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item5}.png`} />
+          </ItemsContainer>}
+          {data.item6 === 0 ? <EmptySlot/> : <ItemsContainer>
+            <SummonerItemImage src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${data.item6}.png`} />
+          </ItemsContainer>}
         </RecentMatchCardInformationRow>
       </RecentMatchCardInformationContainer>
     </RecentMatchCardContainer>

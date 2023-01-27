@@ -3,7 +3,7 @@ import axios from 'axios'
 import PersonalRating from '../components/PersonalRating'
 import { type } from '@testing-library/user-event/dist/type'
 
-const key = 'RGAPI-5b5beefb-d0f2-4a59-b873-ff91a873044a'
+const key = 'RGAPI-8b37cba4-c8f2-4c06-8470-e514afcc673c'
 
 // SUMMONER BASIC DATA
 export async function GetSummoner (region, username) {
@@ -242,45 +242,46 @@ export async function getInfoMatch (region, puuid, start, count) {
   })
 
   const matchData = await Promise.all(matchDataPromises)
-
-  matchData.forEach((getMatchData, index) => {
-    const matchId = listOfMatches[index]
-    const participants = getMatchData.participants
+  for (let i = 0; i < matchData.length; i++) {
+    const matchId = listOfMatches[i]
+    const participants = matchData[i].participants
     const participant = participants.find(p => p.puuid === puuid)
-
-    matchInfoObject.push({
-      matchIden: matchId,
-      typeMatch: getMatchData.queueId,
-      gameTime: getMatchData.gameDuration,
-      gameEndTimestamp: getMatchData.gameEndTimestamp,
-      gameMode: getMatchData.gameMode,
-      kills: participant.kills,
-      assists: participant.assists,
-      deaths: participant.deaths,
-      totalMinionsKilled: participant.totalMinionsKilled,
-      goldEarned: participant.goldEarned,
-      win: participant.win,
-      item0: participant.item0,
-      item1: participant.item1,
-      item2: participant.item2,
-      item3: participant.item3,
-      item4: participant.item4,
-      item5: participant.item5,
-      item6: participant.item6,
-      champLevel: participant.champLevel,
-      championId: participant.championId,
-      championName: participant.championName
-    })
-  })
+    const iconChampion =  await getIconChampionSrc(participant.championId)
+        console.log(participant)
+        matchInfoObject.push({
+        matchIden: matchId,
+        typeMatch: matchData[i].queueId,
+        gameTime:  matchData[i].gameDuration,
+        gameEndTimestamp:  matchData[i].gameEndTimestamp,
+        gameMode:  matchData[i].gameMode,
+        kills: participant.kills,
+        assists: participant.assists,
+        deaths: participant.deaths,
+        totalMinionsKilled: participant.totalMinionsKilled,
+        goldEarned: participant.goldEarned,
+        win: participant.win,
+        item0: participant.item0,
+        item1: participant.item1,
+        item2: participant.item2,
+        item3: participant.item3,
+        item4: participant.item4,
+        item5: participant.item5,
+        item6: participant.item6,
+        champLevel: participant.champLevel,
+        championIconSrc: `https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${iconChampion}.png`,
+        championName: participant.championName
+      })
+  }
 
   return matchInfoObject
 }
 
-export async function getIconChampionSrc (id) {
+ async function getIconChampionSrc (id) {
+  console.log(id)
   const listChampions = Object.values(await GetChampionList())
   // console.log(typeof listChampions)
   const championId = await listChampions.find(c => Number(c.key) === Number(id))
-  return championId.id
+  return  championId.id
 }
 
 function RegionToContinent (region) {
