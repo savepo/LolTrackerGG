@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PersonalRating from '../components/PersonalRating'
 
-const key = 'RGAPI-32a7a029-6cd3-4030-9d73-c0b374ab5470'
+const key = 'RGAPI-0fc915dd-e518-428d-ac87-f59296577ae3'
 
 // SUMMONER BASIC DATA
 export async function GetSummoner (region, username) {
