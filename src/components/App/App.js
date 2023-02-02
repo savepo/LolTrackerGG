@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   TitleContainer,
   Title,
@@ -14,16 +14,13 @@ import {
   GetSummoner,
   GetFavouriteChampion,
   GetPersonalRating,
-  getInfoMatch,
-  getSummonerPerkKey
+  GetAvarageStatsFromLastMatches
 } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
 import LoadingSpinner from '../LoadingSpinner'
-import RecentMatches from '../RecentMatches'
-import { ChampionCardRecentMockData } from '../../resources/DataSamples/ChampionCardRecentPlayed'
 
 function App () {
   const [getData, setGetData] = useState([])
