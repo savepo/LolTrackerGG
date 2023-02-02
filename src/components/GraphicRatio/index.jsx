@@ -8,8 +8,9 @@ import { GraphicContainer } from './styles'
 ChartJS.register(ArcElement, Tooltip)
 const Graphic = ({ graphicData }) => {
   const centerText = graphicData.text
-  const win = graphicData.winPercentage
-  const losses = graphicData.lossesPercentage
+  const win = graphicData.winNum
+  const losses = graphicData.losesNum
+  const totalMatches = win + losses
   const data = {
     labels: ['Win', 'Loses'],
     datasets: [
@@ -54,8 +55,9 @@ const Graphic = ({ graphicData }) => {
 
   return (
     <GraphicContainer>
-      <InfoWinLosesMatches numWinMatches={11} numLosesMatches={8} totalastMatches={20} />
-      <Doughnut data={data} plugins={plugins} />
+      <InfoWinLosesMatches numWinMatches={graphicData.winNum} numLosesMatches={graphicData.losesNum} totalastMatches={totalMatches} />
+      <Doughnut key={graphicData.text} data={data} plugins={plugins} />
+
     </GraphicContainer>
 
   )

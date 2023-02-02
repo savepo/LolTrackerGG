@@ -21,6 +21,7 @@ import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
+import LoadingSpinner from '../LoadingSpinner'
 import RecentMatches from '../RecentMatches'
 import { ChampionCardRecentMockData } from '../../resources/DataSamples/ChampionCardRecentPlayed'
 
@@ -29,20 +30,25 @@ function App () {
   const [summonerData, setSummonerData] = useState()
   const [personalRatingData, setPersonalRating] = useState()
   const [favouriteChampionData, setFavouriteChampion] = useState()
-  const [infoMatch, setInfoMatch] = useState()
+  const [playerAvarageCardData, setPlayerAvarageCardData] = useState()
+  const [loader, setLoader] = useState(false)
 
   const handleOnChange = async (data) => {
+    setSummonerData(undefined)
+    setPersonalRating(undefined)
+    setFavouriteChampion(undefined)
+    setPlayerAvarageCardData(undefined)
+
     setGetData(data)
     const summonerData = await GetSummoner(data[1], data[0])
     setSummonerData(summonerData)
     if (summonerData !== undefined) {
       const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
       const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
-      const infoMatch = await getInfoMatch(data[1], summonerData.puuid, 0, 10)
+      const playerAvarageCardData = await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 20)
       setPersonalRating(personalRatingData)
       setFavouriteChampion(favouriteChampionData)
-      setInfoMatch(infoMatch)
-      
+      setPlayerAvarageCardData(playerAvarageCardData)
     }
   }
 
@@ -51,31 +57,31 @@ function App () {
       <TitleContainer>
         <Title>LOL TRACKER GG</Title>
       </TitleContainer>
-      <NavigationBar setGetData={handleOnChange} />
+      <NavigationBar setGetData={handleOnChange} />      
 
       {!summonerData
         ? null
         : <div>
           <MainSlot>
+            {summonerData === undefined || personalRatingData === undefined || favouriteChampionData === undefined || playerAvarageCardData === undefined ?
+            <LoadingSpinner></LoadingSpinner> : 
+            <>
             <ProfileInfoSlot>
-              {summonerData === undefined ? <div /> : <ProfileInformation data={summonerData} />}
+              <ProfileInformation data={summonerData} />
             </ProfileInfoSlot>
             <PersonalRatingSlot>
-              {personalRatingData === undefined ? <div /> : <PersonalRating data={personalRatingData} />}
+              <PersonalRating data={personalRatingData} />
             </PersonalRatingSlot>
             <FavouriteChampionSlot>
-              {favouriteChampionData === undefined ? <div /> : <FavouriteChampion data={favouriteChampionData} />}
+              <FavouriteChampion data={favouriteChampionData} />
             </FavouriteChampionSlot>
+            <GraphicSlot>
+              <PlayerAverageCard data={playerAvarageCardData} />
+            </GraphicSlot>
+            </>
+            }
           </MainSlot>
-          <GraphicSlot>
-            <PlayerAverageCard data={ChampionCardRecentMockData} />
-          </GraphicSlot>
-          <RecentMatchesSlot>
-            {infoMatch === undefined ? <div /> : <RecentMatches data={infoMatch} />}
-          </RecentMatchesSlot>
-          {/* <RecentMatches data={RecentMatchesMockData} /> */}
-          {/* <RecentMatches /> */}
-          </div>}
+        </div>}
 
     </div>
   )

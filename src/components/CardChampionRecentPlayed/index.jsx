@@ -6,7 +6,7 @@ const ChampionCardRecentPlayed = ({ championIcon, rate, wins, loses, kda }) => {
     <CardChampionContainer>
       <IconChampion src={championIcon} alt='iconChampion' />
       <RateChampion>{rate}</RateChampion>
-      <WinsLosesChampion>({wins}W {loses}L)</WinsLosesChampion>
+      <WinsLosesChampion>{wins}W {loses}L</WinsLosesChampion>
       <KdaChampion>{kda} KDA</KdaChampion>
     </CardChampionContainer>
   )
