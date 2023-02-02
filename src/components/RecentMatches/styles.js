@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
 
 export const RecentMatchesContainer = styled.div`
-    width: 60%;
-    height: 30rem;
+    width: 100%;
+    height: auto;
 `
 
 export const RecentMatchesTitleContainer = styled.div`

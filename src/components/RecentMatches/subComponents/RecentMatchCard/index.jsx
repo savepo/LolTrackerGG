@@ -23,7 +23,9 @@ import {
   SummonerPerkImage,
   ItemsContainer,
   SummonerItemImage,
-  EmptySlot
+  EmptySlot,
+  Test,
+  KillsWinsKdaContainer
 } from './styles'
 
 const RecentMatchCard = ({ data }) => {
@@ -35,8 +37,12 @@ const RecentMatchCard = ({ data }) => {
 
   const timeStampToTime = (gameTimeStamp) => {
     const date = new Date(gameTimeStamp)
-    return date.toDateString()
-  }
+    return date.toLocaleDateString("default", {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric"
+    });
+ }
 
   const calculateKda = (kills, deaths, assists) => {
     const kda = (kills + assists) / deaths
@@ -48,12 +54,14 @@ const RecentMatchCard = ({ data }) => {
         <RecentMatchCardPicture src={data.championIconSrc} />
       </RecentMatchCardPictureContainer>
       <RecentMatchCardInformationContainer>
+        <Test>
         <RecentMatchCardInformationRow>
           <RecentMatchCardGameStatusAndType>
             {data.win ? <Victory>Victory</Victory> : <Defeat>Defeat</Defeat>}
             <GameType>{data.queueId}</GameType>
           </RecentMatchCardGameStatusAndType>
           <Spacer />
+          <KillsWinsKdaContainer>
           <KillsDeathsAssistsContainer><KillsDeathsAssists>{data.kills} / {data.deaths} / {data.assists}</KillsDeathsAssists></KillsDeathsAssistsContainer>
           <Spacer />
           <InfoContainer>
@@ -80,7 +88,9 @@ const RecentMatchCard = ({ data }) => {
             <Title>Date</Title>
             <Text>{timeStampToTime(data.gameEndTimestamp)}</Text>
           </InfoContainer>
+          </KillsWinsKdaContainer>
         </RecentMatchCardInformationRow>
+        </Test>
 
         <RecentMatchCardInformationRow>
           <SpellsContainer>

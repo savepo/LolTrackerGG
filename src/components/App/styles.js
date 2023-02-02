@@ -22,7 +22,7 @@ export const MainSlot = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 2rem;
-    background: white;
+
 `
 
 export const LeftSideContainer = styled.div`
@@ -69,4 +69,8 @@ export const SpinnerSlot = styled.div`
     justify-content: center;
 `
 
-export const RecentMatchesSlot = styled.div``
+export const RecentMatchesSlot = styled.div`
+width: 100%;
+display: flex;
+justify-content: center;
+`

@@ -5,6 +5,9 @@ export const FavouriteChampionContainer = styled.div`
     height: 100%;
     text-align: center;
     background: white;
+    border-radius: 1rem;
+    padding-top: 15px;
+    padding-bottom: 10px;
 
 `
 

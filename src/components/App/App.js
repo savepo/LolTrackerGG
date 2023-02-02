@@ -14,14 +14,15 @@ import {
   GetSummoner,
   GetFavouriteChampion,
   GetPersonalRating,
-  GetAvarageStatsFromLastMatches
+  GetAvarageStatsFromLastMatches,
+  getInfoMatch
 } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
 import ProfileInformation from '../ProfileInformation'
 import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
 import LoadingSpinner from '../LoadingSpinner'
-
+import RecentMatches from '../RecentMatches'
 function App () {
   const [getData, setGetData] = useState([])
   const [summonerData, setSummonerData] = useState()
@@ -29,13 +30,14 @@ function App () {
   const [favouriteChampionData, setFavouriteChampion] = useState()
   const [playerAvarageCardData, setPlayerAvarageCardData] = useState()
   const [loader, setLoader] = useState(false)
+  const [infoMatch, setInfoMatch] = useState()
 
   const handleOnChange = async (data) => {
     setSummonerData(undefined)
     setPersonalRating(undefined)
     setFavouriteChampion(undefined)
     setPlayerAvarageCardData(undefined)
-
+    setInfoMatch(undefined)
     setGetData(data)
     const summonerData = await GetSummoner(data[1], data[0])
     setSummonerData(summonerData)
@@ -43,9 +45,11 @@ function App () {
       const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
       const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
       const playerAvarageCardData = await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 20)
+      const recentMatchesPlayedInfo = await getInfoMatch(data[1], summonerData.puuid, 1, 10)
       setPersonalRating(personalRatingData)
       setFavouriteChampion(favouriteChampionData)
       setPlayerAvarageCardData(playerAvarageCardData)
+      setInfoMatch(recentMatchesPlayedInfo)
     }
   }
 
@@ -84,17 +88,13 @@ function App () {
                   <PlayerAverageCard data={playerAvarageCardData} />
                 </GraphicSlot>
               </RowContainer>
+              <RowContainer>
+              <RecentMatchesSlot>
+                <RecentMatches data={infoMatch}/>
+              </RecentMatchesSlot>
+              </RowContainer>
             </RightSideContainer>
-
-            {/* <PersonalRatingSlot>
-              <PersonalRating data={personalRatingData} />
-            </PersonalRatingSlot>
-            <FavouriteChampionSlot>
-              <FavouriteChampion data={favouriteChampionData} />
-            </FavouriteChampionSlot>
-            <GraphicSlot>
-              <PlayerAverageCard data={playerAvarageCardData} />
-            </GraphicSlot> */}
+       
             </>
             }
           </MainSlot>

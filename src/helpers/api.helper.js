@@ -1,4 +1,3 @@
-import { type } from '@testing-library/user-event/dist/type'
 import axios from 'axios'
 
 const key = 'RGAPI-14095500-6ce1-4245-84cb-83c10f353e27'
