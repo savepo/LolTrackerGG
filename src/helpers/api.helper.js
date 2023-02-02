@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import PersonalRating from '../components/PersonalRating'
 import { type } from '@testing-library/user-event/dist/type'
+import axios from 'axios'
 
-const key = 'RGAPI-8b37cba4-c8f2-4c06-8470-e514afcc673c'
+const key = 'RGAPI-a8711523-0851-40b2-8865-6313071066b2'
 
 // SUMMONER BASIC DATA
 export async function GetSummoner (region, username) {
@@ -120,7 +118,7 @@ function GetPersonalRatingPreparedObject (data) {
   }
   return PersonalRatingData
 }
-
+/*
 function GetRecentMatchPreparedObject (matchData, puuid, numberOfList) {
   const matchPreparedObject = {
     graphic: {
@@ -130,7 +128,7 @@ function GetRecentMatchPreparedObject (matchData, puuid, numberOfList) {
     }
   }
   return matchPreparedObject
-}
+}*/
 
 export async function GetAvarageStatsFromLastMatches2 (region, puuid, start, count) {
   const listOfMatches = await GetListMatches(region, puuid, start, count)
@@ -155,7 +153,7 @@ async function GetMatchData (region, matchId) {
     console.log(error)
   }
 }
-
+ 
 export async function GetAvarageStatsFromLastMatches (region, puuid, start, count) {
   let totalKills = 0
   let totalDeaths = 0
@@ -246,42 +244,81 @@ export async function getInfoMatch (region, puuid, start, count) {
     const matchId = listOfMatches[i]
     const participants = matchData[i].participants
     const participant = participants.find(p => p.puuid === puuid)
-    const iconChampion =  await getIconChampionSrc(participant.championId)
-        console.log(participant)
-        matchInfoObject.push({
-        matchIden: matchId,
-        typeMatch: matchData[i].queueId,
-        gameTime:  matchData[i].gameDuration,
-        gameEndTimestamp:  matchData[i].gameEndTimestamp,
-        gameMode:  matchData[i].gameMode,
-        kills: participant.kills,
-        assists: participant.assists,
-        deaths: participant.deaths,
-        totalMinionsKilled: participant.totalMinionsKilled,
-        goldEarned: participant.goldEarned,
-        win: participant.win,
-        item0: participant.item0,
-        item1: participant.item1,
-        item2: participant.item2,
-        item3: participant.item3,
-        item4: participant.item4,
-        item5: participant.item5,
-        item6: participant.item6,
-        champLevel: participant.champLevel,
-        championIconSrc: `https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${iconChampion}.png`,
-        championName: participant.championName
-      })
+    const iconChampion = await getIconChampionSrc(participant.championId)
+    const iconSummonerPerk =  await getSummonerPerkKey(participant.summoner1Id)
+    const iconSummonerPerk2 =  await getSummonerPerkKey(participant.summoner2Id)
+    const descriptionTypeMatch = await getDescriptionMatchByQueueId(matchData[i].queueId)
+    console.log(descriptionTypeMatch)
+    matchInfoObject.push({
+      matchIden: matchId,
+      typeMatch: matchData[i].queueId,
+      gameTime: matchData[i].gameDuration,
+      gameEndTimestamp: matchData[i].gameEndTimestamp,
+      gameMode: matchData[i].gameMode,
+      queueId: descriptionTypeMatch,
+      kills: participant.kills,
+      assists: participant.assists,
+      deaths: participant.deaths,
+      totalMinionsKilled: participant.totalMinionsKilled,
+      goldEarned: participant.goldEarned,
+      win: participant.win,
+      item0: participant.item0,
+      item1: participant.item1,
+      item2: participant.item2,
+      item3: participant.item3,
+      item4: participant.item4,
+      item5: participant.item5,
+      item6: participant.item6,
+      champLevel: participant.champLevel,
+      championIconSrc: `https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${iconChampion}.png`,
+      championName: participant.championName,
+      perks: participant.perks,
+      summonerId1: `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${iconSummonerPerk}.png`,
+      summonerId2: `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${iconSummonerPerk2}.png`
+    })
+
+
   }
 
   return matchInfoObject
 }
 
- async function getIconChampionSrc (id) {
-  console.log(id)
+async function getTypeMatch() {
+    try {
+      const response = await axios.get(`https://static.developer.riotgames.com/docs/lol/queues.json`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+}
+
+async function getDescriptionMatchByQueueId(queueId){
+  const typeMatch = await getTypeMatch()
+  const idMatchType = Object.values(await typeMatch)
+  const descriptionMatch = idMatchType.find(p => Number(p.queueId) === Number(queueId))
+  return descriptionMatch.description
+}
+
+async function getSummonerPerks() {
+    try {
+      const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/summoner.json`)
+      return response.data.data
+    } catch (error) {
+      console.log(error)
+    }
+}
+
+export async function getSummonerPerkKey(summonerIdPerk){
+  const summonerPerks = await getSummonerPerks()
+  const perks = Object.values(await summonerPerks)
+  const idPerk = perks.find(p => Number(p.key) === Number(summonerIdPerk))
+  return idPerk.id
+}
+
+async function getIconChampionSrc (id) {
   const listChampions = Object.values(await GetChampionList())
-  // console.log(typeof listChampions)
   const championId = await listChampions.find(c => Number(c.key) === Number(id))
-  return  championId.id
+  return championId.id
 }
 
 function RegionToContinent (region) {

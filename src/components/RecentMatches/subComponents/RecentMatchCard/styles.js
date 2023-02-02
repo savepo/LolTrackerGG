@@ -80,6 +80,7 @@ export const KillsDeathsAssistsContainer = styled.div`
     min-width: 5rem;
     border: 1px solid grey;
     border-radius: 10rem;
+    text-align: center;
 `
 
 export const KillsDeathsAssists = styled.p`
