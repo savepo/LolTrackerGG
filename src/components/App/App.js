@@ -23,6 +23,8 @@ import PersonalRating from '../PersonalRating'
 import FavouriteChampion from '../FavouriteChampion'
 import LoadingSpinner from '../LoadingSpinner'
 import RecentMatches from '../RecentMatches'
+import AdaptativeProfileInformation from '../AdaptativeProfileInformation'
+
 function App () {
   const [getData, setGetData] = useState([])
   const [summonerData, setSummonerData] = useState()
@@ -55,7 +57,7 @@ function App () {
 
   return (
     <div>
-      <TitleContainer>
+      <TitleContainer id='navbar'>
         <Title>LOL TRACKER GG</Title>
       </TitleContainer>
       <NavigationBar setGetData={handleOnChange} />      
@@ -69,7 +71,8 @@ function App () {
             <>
             <LeftSideContainer>
               <ProfileInfoSlot>
-                <ProfileInformation data={summonerData} />
+                <ProfileInformation id='proinfo' data={summonerData} />
+                <AdaptativeProfileInformation></AdaptativeProfileInformation>
               </ProfileInfoSlot>
             </LeftSideContainer>
 

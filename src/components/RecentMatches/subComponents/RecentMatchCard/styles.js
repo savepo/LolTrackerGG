@@ -85,7 +85,6 @@ export const KillsDeathsAssistsContainer = styled.div`
 `
 
 export const KillsDeathsAssists = styled.p`
-    margin: 5px;
 `
 
 export const InfoContainer = styled.div`

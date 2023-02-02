@@ -1,11 +1,13 @@
 import styled from '@emotion/styled'
+import { withTheme } from '../../helpers/styles.helper'
+
 
 export const ProfileInformationContainer = styled.div`
     width: 30%;
     margin-top: 161px;
-    height: 100vh;
+    height: 75%;
     text-align: center;
-    background: white;
+    ${withTheme('background-color', 'colors.lightBlue')}
     top: 15px;
     left: 30px;
     position: fixed;

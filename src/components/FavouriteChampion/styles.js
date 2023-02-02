@@ -1,14 +1,14 @@
 import styled from '@emotion/styled'
+import { withTheme } from '../../helpers/styles.helper'
 
 export const FavouriteChampionContainer = styled.div`
     width: 100%;
     height: 100%;
     text-align: center;
-    background: white;
+    ${withTheme('background-color', 'colors.lightBlue')}
     border-radius: 1rem;
     padding-top: 15px;
-    padding-bottom: 10px;
-
+    padding-bottom: 5px;
 `
 
 export const FavouriteChampionTitle = styled.h2`
@@ -36,8 +36,6 @@ export const FavouriteChampionNameContainer = styled.div`
     height: 100%;
     justify-content: center;
     align-items: center;
-    margin-top: 0;
-    margin-bottom: 0;
 `
 
 export const FavouriteChampionName = styled.h1`
@@ -45,7 +43,7 @@ export const FavouriteChampionName = styled.h1`
     font-family: 'Kufam', sans-serif;
     font-size: 2vw;
     text-shadow: 0px 3px 2px #948f8f;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 `
 
 export const FavouriteChampionPictureContainer = styled.div`
@@ -61,4 +59,5 @@ export const FavouriteChampionPicture = styled.img`
     max-width: 100px;
     height: auto;
     max-height: 220px;
+    border-radius: 1rem;
 `

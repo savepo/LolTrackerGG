@@ -8,6 +8,7 @@ export const ContainerNavitem = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1.2vw;
     ${withTheme('color', 'colors.softBlack')}   
     &:hover {
         cursor: pointer;

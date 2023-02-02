@@ -7,8 +7,9 @@
   --ff-primary-body: Arial, Helvetica, sans-serif;
   --ff-smartpointCloud-font: atls-default, sans-serif;
   --ff-primary-headline: 'Impact', sans-serif;
+  --clr-lightBlue: #bfdff9;
 }
 
 body{
-  background-color: #4E6659;
+  background-color: #ffffff;
 }

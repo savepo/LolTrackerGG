@@ -37,7 +37,7 @@ export const RightSideContainer = styled.div`
 
 export const RowContainer = styled.div`
     width: 100%;
-    height: 33vh;
+    height: 15vw;
     display: flex;
     justify-content: space-between;
 `
@@ -48,19 +48,19 @@ export const ProfileInfoSlot = styled.div`
 `
 
 export const PersonalRatingSlot = styled.div`
-    width: 40%;
+    width: 45%;
     height: 100%;    
 `
 
 export const FavouriteChampionSlot = styled.div`
-    width: 40%;
+    width: 45%;
     height: 100%;
 `
 
 export const GraphicSlot = styled.div`
     width: 100%;
     height: 100%;
-    margin-top: 5%;
+    margin-top: 3.5vw;
 `
 
 export const SpinnerSlot = styled.div`
@@ -73,4 +73,5 @@ export const RecentMatchesSlot = styled.div`
 width: 100%;
 display: flex;
 justify-content: center;
+margin-top: 15%;
 `
