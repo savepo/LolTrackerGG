@@ -14,8 +14,7 @@ export const ProfileInformationTitle = styled.h2`
     color: #595959;
     text-align: center;
     justify-content: center;
-    margin-top: 10%;
-    margin-bottom: 5%;
+
 `
 
 export const ProfileInformationIcon = styled.img`
