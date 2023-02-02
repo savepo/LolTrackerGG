@@ -1,7 +1,7 @@
 import { type } from '@testing-library/user-event/dist/type'
 import axios from 'axios'
 
-const key = 'RGAPI-1b1766b9-a8e2-41f6-9264-4b6224be90a7'
+const key = 'RGAPI-14095500-6ce1-4245-84cb-83c10f353e27'
 
 // SUMMONER BASIC DATA
 export async function GetSummoner (region, username) {

@@ -5,7 +5,8 @@ export const PersonalRatingContainer = styled.div`
     width: 100%;
     height: 100%;
     text-align: center;
-    margin-top: 3.5rem;
+    background: white;
+
 `
 
 export const PersonalRatingTitle = styled.h2`
@@ -16,7 +17,8 @@ export const PersonalRatingTitle = styled.h2`
     font-family: Sans-serif, Arial;
     color: #595959;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.5vw;
+    margin-top:0;
 `
 
 export const PersonalRatingMenu = styled.div`
@@ -61,14 +63,14 @@ export const PersonalRatingStatsContainer = styled.div`
 
 export const PersonalRatingInformationContainer = styled.div`
     width: 50%;
-    height: 100%;
+    height: 80%;
     align-items: center;
     justify-content: center;
 `
 
 export const PersonalRatingLabel = styled.p`
     width: 100%;
-    height: 33.33%;
+    height: 33.3333%%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,5 +85,5 @@ export const PersonalRatingImageContainer = styled.div`
 `
 
 export const PersonalRatingRankPicture = styled.img`   
-    width: 6vw;
+    width: 5vw;
 `
