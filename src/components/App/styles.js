@@ -64,6 +64,8 @@ export const GraphicSlot = styled.div`
 `
 
 export const SpinnerSlot = styled.div`
-
+    width: 100%;
+    display: flex;
+    justify-content: center;
 `
 
