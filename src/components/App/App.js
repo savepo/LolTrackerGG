@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TitleContainer, Title, MainSlot, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot, GraphicSlot } from './styles'
+import { TitleContainer, Title, MainSlot, LeftSideContainer, RightSideContainer, RowContainer, ProfileInfoSlot, PersonalRatingSlot, FavouriteChampionSlot, GraphicSlot } from './styles'
 import NavigationBar from '../NavigationBar'
 import { GetSummoner, GetFavouriteChampion, GetPersonalRating, GetRecentMatches, GetAvarageStatsFromLastMatches } from '../../helpers/api.helper'
 import PlayerAverageCard from '../PlayerAverageCard'
@@ -55,10 +55,30 @@ function App () {
             {summonerData === undefined || personalRatingData === undefined || favouriteChampionData === undefined || playerAvarageCardData === undefined ?
             <LoadingSpinner></LoadingSpinner> : 
             <>
-            <ProfileInfoSlot>
-              <ProfileInformation data={summonerData} />
-            </ProfileInfoSlot>
-            <PersonalRatingSlot>
+            <LeftSideContainer>
+              <ProfileInfoSlot>
+                <ProfileInformation data={summonerData} />
+              </ProfileInfoSlot>
+            </LeftSideContainer>
+
+            <RightSideContainer>
+              <RowContainer>
+                <PersonalRatingSlot>
+                  <PersonalRating data={personalRatingData} />
+                </PersonalRatingSlot>
+
+                <FavouriteChampionSlot>
+                  <FavouriteChampion data={favouriteChampionData} />
+                </FavouriteChampionSlot>
+              </RowContainer>
+              <RowContainer>
+                <GraphicSlot>
+                  <PlayerAverageCard data={playerAvarageCardData} />
+                </GraphicSlot>
+              </RowContainer>
+            </RightSideContainer>
+
+            {/* <PersonalRatingSlot>
               <PersonalRating data={personalRatingData} />
             </PersonalRatingSlot>
             <FavouriteChampionSlot>
@@ -66,7 +86,7 @@ function App () {
             </FavouriteChampionSlot>
             <GraphicSlot>
               <PlayerAverageCard data={playerAvarageCardData} />
-            </GraphicSlot>
+            </GraphicSlot> */}
             </>
             }
           </MainSlot>

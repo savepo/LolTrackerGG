@@ -4,19 +4,21 @@ export const FavouriteChampionContainer = styled.div`
     width: 100%;
     height: 100%;
     text-align: center;
-    margin-top: 3.5rem;
+    background: white;
+
 `
 
 export const FavouriteChampionTitle = styled.h2`
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
     height: 20%;
     font-family: Sans-serif, Arial;
     color: #595959;
     text-align: center;
-    font-size: 1rem;
-    margin-left: 1rem;
+    font-size: 1.5vw;
+    margin-top: 0;
+    margin-bottom: 0;
 `
 
 export const FavouriteChampionInformationContainer = styled.div`
@@ -27,27 +29,33 @@ export const FavouriteChampionInformationContainer = styled.div`
 
 export const FavouriteChampionNameContainer = styled.div`
     display: flex;
-    width: 55%;
+    width: 50%;
     height: 100%;
     justify-content: center;
     align-items: center;
+    margin-top: 0;
+    margin-bottom: 0;
 `
 
 export const FavouriteChampionName = styled.h1`
     color: #000000;
     font-family: 'Kufam', sans-serif;
-    font-size: 1.7rem;
+    font-size: 2vw;
     text-shadow: 0px 3px 2px #948f8f;
     margin-bottom: 3rem;
 `
 
 export const FavouriteChampionPictureContainer = styled.div`
+    display: flex;
     justify-content: center;
     align-items: center;
-    width: 45%;
+    width: 50%;
     height: 100%;
 `
 
 export const FavouriteChampionPicture = styled.img`
-    width: 8vw;
+    width: 6vw;
+    max-width: 100px;
+    height: auto;
+    max-height: 220px;
 `
