@@ -10,7 +10,8 @@ export const trackerTheme = {
     softBlack: 'var(--clr-softBlack)',
     white: 'var(--clr-white)',
     highLight: 'var(--clr-coral)',
-    defaultText: 'var(--clr-softBlack)'
+    defaultText: 'var(--clr-softBlack)',
+    lightBlue: 'var(--clr-lightBlue)'
   },
   sizes: {
     rem1: '1.863rem',

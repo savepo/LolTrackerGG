@@ -4,6 +4,7 @@ import { Doughnut } from 'react-chartjs-2'
 import InfoWinLosesMatches from '../InfoWinLoses'
 import { GraphicContainer } from './styles'
 
+
 ChartJS.register(ArcElement, Tooltip)
 const Graphic = ({ graphicData }) => {
   const centerText = graphicData.text

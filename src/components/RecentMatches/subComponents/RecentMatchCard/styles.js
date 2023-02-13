@@ -16,7 +16,7 @@ export const RecentMatchCardPictureContainer = styled.div`
 `
 
 export const RecentMatchCardPicture = styled.img`
-    height: 6vw;
+    height: 4.5vw;
     border-radius: 10rem;
 `
 
@@ -30,11 +30,14 @@ export const RecentMatchCardInformationRow = styled.div`
     height: 33.33333%;
     display: flex;
     align-items: center;
+  
+
 `
 
 export const RecentMatchCardGameStatusAndType = styled.div`
     height: 100%;
-    `
+    width: 20%;
+`
 
 export const RecentMatchCardInformationGameStatus = styled.div`
     font-family: 'Inter', sans-serif;
@@ -52,7 +55,6 @@ export const Victory = styled.div`
     width: 100%;
     height: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
 
     color: #1E02C9;
@@ -64,7 +66,6 @@ export const Defeat = styled.div`
     width: 100%;
     height: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
 
     color: #C9020E;
@@ -72,7 +73,7 @@ export const Defeat = styled.div`
     font-size: 1.5vw;
 `
 export const Spacer = styled.div`
-    width: 2rem;
+    width: 4rem;
     height: 100%;
 `
 
@@ -80,10 +81,10 @@ export const KillsDeathsAssistsContainer = styled.div`
     min-width: 5rem;
     border: 1px solid grey;
     border-radius: 10rem;
+    text-align: center;
 `
 
 export const KillsDeathsAssists = styled.p`
-    margin: 5px;
 `
 
 export const InfoContainer = styled.div`
@@ -143,4 +144,23 @@ export const ItemsContainer = styled.div`
 export const SummonerItemImage = styled.img`
     height: 70%;
     border-radius: 0.3rem;
+`
+
+export const EmptySlot = styled.div`
+    height: 70%;
+    border-radius: 0.3rem;
+    background-color: #403d3c;
+    padding: 0px 37px 0px 0px;
+    margin-right: 10px
+`
+
+export const Test = styled.div`
+    width: 100%;
+`
+
+export const KillsWinsKdaContainer = styled.div`
+    display: flex;
+    width: 80%;
+    justify-content: cemter;
+    
 `

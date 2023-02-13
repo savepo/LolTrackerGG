@@ -1,8 +1,12 @@
 import styled from '@emotion/styled'
+import { withTheme } from '../../helpers/styles.helper'
 
 export const RecentMatchesContainer = styled.div`
-    width: 60%;
-    height: 30rem;
+    width: 100%;
+    height: fit-content;
+    border-radius: 1rem;
+    ${withTheme('background-color', 'colors.lightBlue')}
+
 `
 
 export const RecentMatchesTitleContainer = styled.div`

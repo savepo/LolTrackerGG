@@ -1,10 +1,18 @@
 import styled from '@emotion/styled'
+import { withTheme } from '../../helpers/styles.helper'
+
 
 export const ProfileInformationContainer = styled.div`
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    margin-top: 161px;
+    height: 75%;
     text-align: center;
-    background: white;
+    ${withTheme('background-color', 'colors.lightBlue')}
+    top: 15px;
+    left: 30px;
+    position: fixed;
+    border-radius: 1rem;
+    
 `
 
 export const ProfileInformationTitle = styled.h2`
