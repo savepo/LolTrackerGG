@@ -31,69 +31,23 @@ function App () {
   const [recentMatches, setRecentMatches] = useState(null)
   const [error, setError] = useState(null)
 
-  // Use Effect to get the basic data of a user
-  useEffect(() => {
-    if (inputData[0] !== null & inputData[1] !== null) {
-      // Set Loader
-      setIsLoading(true)
-      // Set summoner data
-      getSummonerData(inputData[1], inputData[0])
-        .then(data => {
-          setSummonerData(data)
-        })
-        .catch(error => {
-          setError(error)
-          // Unset Loader
-          setIsLoading(false)
-        })
-    }
-  }, [inputData])
-
-  useEffect(() => {
-    if (summonerData !== null & inputData[1] !== null) {
-      // Ranked level data
-      getRankedLevel(inputData[1], summonerData.id)
-        .then(data => {
-          setRankedLevelData(data)
-          setIsLoading(false)
-        })
-        .catch(error => {
-          setError(error)
-        })
-
-      // Favourite champion data
-      getFavouriteChampion(inputData[1], summonerData.id)
-        .then(data => {
-          setFavouriteChampionData(data)
-          setIsLoading(false)
-        })
-        .catch(error => {
-          setError(error)
-        })
-
-      // Graphic data
-      getAvarageStatsFromLastMatches(inputData[1], summonerData.puuid, 0, 5)
-        .then(data => {
-          setPlayerAvarageCardData(data)
-          setIsLoading(false)
-        })
-        .catch(error => {
-          setError(error)
-        })
-
-      // Recent list matches
-      getInfoMatch(inputData[1], summonerData.puuid, 0, 3)
-        .then(data => {
-          setRecentMatches(data)
-          setIsLoading(false)
-          console.log('asasasas')
-          console.log(data)
-        })
-        .catch(error => {
-          setError(error)
-        })
-    }
-  }, [summonerData, inputData])
+  // // Use Effect to get the basic data of a user
+  // useEffect(() => {
+  //   if (inputData[0] !== null & inputData[1] !== null) {
+  //     // Set Loader
+  //     setIsLoading(true)
+  //     // Set summoner data
+  //     getSummonerData(inputData[1], inputData[0])
+  //       .then(data => {
+  //         setSummonerData(data)
+  //       })
+  //       .catch(error => {
+  //         setError(error)
+  //         // Unset Loader
+  //         setIsLoading(false)
+  //       })
+  //   }
+  // }, [inputData])
 
   const handleOnChange = async (data) => {
     // Save input data in the state
@@ -103,23 +57,11 @@ function App () {
       // Would be nice to advice the user that he is trying to search an empty input.
 
     }
+  }
 
-    // setSummonerData(undefined)
-    // setPersonalRating(undefined)
-    // setFavouriteChampion(undefined)
-    // setPlayerAvarageCardData(undefined)
-
-    // setGetData(data)
-    // const summonerData = await GetSummoner(data[1], data[0])
-    // setSummonerData(summonerData)
-    // if (summonerData !== undefined) {
-    //   const personalRatingData = await GetPersonalRating(data[1], summonerData.id)
-    //   const favouriteChampionData = await GetFavouriteChampion(data[1], summonerData.id)
-    //   const playerAvarageCardData = await GetAvarageStatsFromLastMatches(data[1], summonerData.puuid, 0, 20)
-    //   setPersonalRating(personalRatingData)
-    //   setFavouriteChampion(favouriteChampionData)
-    //   setPlayerAvarageCardData(playerAvarageCardData)
-    // }
+  const handleSummonerData = (data) => {
+    // Almacenar los datos en el estado del componente padre
+    setSummonerData(data)
   }
 
   return (
@@ -129,40 +71,37 @@ function App () {
       </TitleContainer>
       <NavigationBar setGetData={handleOnChange} />
       <MainSlot>
-        {isLoading && <SpinnerSlot><LoadingSpinner /></SpinnerSlot>}
 
-        {summonerData !== null & rankedLevelData !== null & favouriteChampionData !== null & playerAvarageCardData !== null & recentMatches !== null
-          ? <>
-            <LeftSideContainer>
-              <ProfileInfoSlot>
-                <ProfileInformation data={summonerData} />
-              </ProfileInfoSlot>
-            </LeftSideContainer>
+        <>
+          <LeftSideContainer>
+            <ProfileInfoSlot>
+              {inputData[0] !== null && inputData[1] !== null ? <ProfileInformation gameName={inputData[0]} region={inputData[1]} onData={handleSummonerData} /> : <></>}
+            </ProfileInfoSlot>
+          </LeftSideContainer>
 
-            <RightSideContainer>
-              <RowContainer>
-                <PersonalRatingSlot>
-                  <PersonalRating data={rankedLevelData} />
-                </PersonalRatingSlot>
+          <RightSideContainer>
+            <RowContainer>
+              <PersonalRatingSlot>
+                {summonerData !== null ? <PersonalRating summonerId={summonerData.id} region={inputData[1]} /> : <></>}
+              </PersonalRatingSlot>
 
-                <FavouriteChampionSlot>
-                  <FavouriteChampion data={favouriteChampionData} />
-                </FavouriteChampionSlot>
-              </RowContainer>
+              <FavouriteChampionSlot>
+                {summonerData !== null ? <FavouriteChampion summonerId={summonerData.id} region={inputData[1]} /> : <></>}
+              </FavouriteChampionSlot>
+            </RowContainer>
 
-              <RowContainer>
-                <GraphicSlot>
-                  <PlayerAverageCard data={playerAvarageCardData} />
-                </GraphicSlot>
-              </RowContainer>
-              <RowContainer>
-                <RecentMatchesSlot>
-                  <RecentMatches data={recentMatches} />
-                </RecentMatchesSlot>
-              </RowContainer>
-            </RightSideContainer>
-            </>
-          : <div />}
+            {/* <RowContainer>
+              <GraphicSlot>
+                <PlayerAverageCard data={playerAvarageCardData} />
+              </GraphicSlot>
+            </RowContainer>
+            <RowContainer>
+              <RecentMatchesSlot>
+                <RecentMatches data={recentMatches} />
+              </RecentMatchesSlot>
+            </RowContainer> */}
+          </RightSideContainer>
+        </>
 
       </MainSlot>
       {/* {!summonerData

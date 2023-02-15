@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import { withTheme } from '../../helpers/styles.helper'
 
-
 export const ProfileInformationContainer = styled.div`
     width: 30%;
     margin-top: 161px;
@@ -62,4 +61,12 @@ export const ProfileInformationLevelNumber = styled.p`
     font-family: 'Kufam', sans-serif;
     font-weight: bold;
     font-size: 1vw;
+`
+
+export const SpinnerSlot = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `

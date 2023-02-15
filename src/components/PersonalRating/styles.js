@@ -89,3 +89,11 @@ export const PersonalRatingImageContainer = styled.div`
 export const PersonalRatingRankPicture = styled.img`   
     width: 5vw;
 `
+
+export const SpinnerSlot = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

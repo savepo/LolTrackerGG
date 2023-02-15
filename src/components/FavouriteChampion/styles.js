@@ -61,3 +61,11 @@ export const FavouriteChampionPicture = styled.img`
     max-height: 220px;
     border-radius: 1rem;
 `
+
+export const SpinnerSlot = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
