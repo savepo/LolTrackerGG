@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import PersonalRatingMenuItem from './subComponents/PersonalRatingMenuItem'
+import { getRankedLevel } from '../../helpers/api.helper'
+import LoadingSpinner from '../LoadingSpinner'
+import useFetchData from '../../hook/useFetchData'
 
-import { PersonalRatingContainer, PersonalRatingTitle, PersonalRatingMenu, PersonalRatingStatsContainer, PersonalRatingInformationContainer, PersonalRatingLabel, PersonalRatingImageContainer, PersonalRatingRankPicture } from './styles'
+import { PersonalRatingContainer, PersonalRatingTitle, PersonalRatingMenu, PersonalRatingStatsContainer, PersonalRatingInformationContainer, PersonalRatingLabel, PersonalRatingImageContainer, PersonalRatingRankPicture, SpinnerSlot } from './styles'
 
-const PersonalRating = ({ data }) => {
+const PersonalRating = ({ summonerId, region }) => {
+  const [isLoading, rankedLevelData, error] = useFetchData(summonerId, region, getRankedLevel)
+
   const [selectedTab, setSelectedTab] = useState('Ranked Solo')
   const handleTabClick = (tab) => {
     setSelectedTab(tab)
@@ -59,23 +63,29 @@ const PersonalRating = ({ data }) => {
   //   const [selectedItem, setSelectedItem] = useState(true)
   return (
     <PersonalRatingContainer>
-      <PersonalRatingTitle>PERSONAL RATING</PersonalRatingTitle>
-      <PersonalRatingMenu>
-        <PersonalRatingMenuItem id={1} text='Ranked Solo' isSelected={selectedTab === 'Ranked Solo'} onChange={() => handleTabClick('Ranked Solo')} />
-        <PersonalRatingMenuItem id={2} text='Ranked Flex' isSelected={selectedTab === 'Ranked Flex'} onChange={() => handleTabClick('Ranked Flex')} />
-      </PersonalRatingMenu>
-      <PersonalRatingStatsContainer>
-        <PersonalRatingInformationContainer>
-          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? data.RankedSolo.tier : data.RankedFlex.tier} {selectedTab === 'Ranked Solo' ? data.RankedSolo.rank : data.RankedFlex.rank}</PersonalRatingLabel>
-          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? data.RankedSolo.leaguePoints : data.RankedFlex.leaguePoints} LP</PersonalRatingLabel>
-          <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? data.RankedSolo.wins : data.RankedFlex.wins}W {selectedTab === 'Ranked Solo' ? data.RankedSolo.losses : data.RankedFlex.losses}L</PersonalRatingLabel>
-        </PersonalRatingInformationContainer>
-        <PersonalRatingInformationContainer>
-          <PersonalRatingImageContainer>
-            <PersonalRatingRankPicture src={selectedTab === 'Ranked Solo' ? getTierImage(data.RankedSolo.tier) : getTierImage(data.RankedFlex.tier)} />
-          </PersonalRatingImageContainer>
-        </PersonalRatingInformationContainer>
-      </PersonalRatingStatsContainer>
+      {isLoading ? <SpinnerSlot><LoadingSpinner /></SpinnerSlot> : <></>}
+
+      {rankedLevelData !== null
+        ? <>
+          <PersonalRatingTitle>PERSONAL RATING</PersonalRatingTitle>
+          <PersonalRatingMenu>
+            <PersonalRatingMenuItem id={1} text='Ranked Solo' isSelected={selectedTab === 'Ranked Solo'} onChange={() => handleTabClick('Ranked Solo')} />
+            <PersonalRatingMenuItem id={2} text='Ranked Flex' isSelected={selectedTab === 'Ranked Flex'} onChange={() => handleTabClick('Ranked Flex')} />
+          </PersonalRatingMenu>
+          <PersonalRatingStatsContainer>
+            <PersonalRatingInformationContainer>
+              <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? rankedLevelData.RankedSolo.tier : rankedLevelData.RankedFlex.tier} {selectedTab === 'Ranked Solo' ? rankedLevelData.RankedSolo.rank : rankedLevelData.RankedFlex.rank}</PersonalRatingLabel>
+              <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? rankedLevelData.RankedSolo.leaguePoints : rankedLevelData.RankedFlex.leaguePoints} LP</PersonalRatingLabel>
+              <PersonalRatingLabel>{selectedTab === 'Ranked Solo' ? rankedLevelData.RankedSolo.wins : rankedLevelData.RankedFlex.wins}W {selectedTab === 'Ranked Solo' ? rankedLevelData.RankedSolo.losses : rankedLevelData.RankedFlex.losses}L</PersonalRatingLabel>
+            </PersonalRatingInformationContainer>
+            <PersonalRatingInformationContainer>
+              <PersonalRatingImageContainer>
+                <PersonalRatingRankPicture src={selectedTab === 'Ranked Solo' ? getTierImage(rankedLevelData.RankedSolo.tier) : getTierImage(rankedLevelData.RankedFlex.tier)} />
+              </PersonalRatingImageContainer>
+            </PersonalRatingInformationContainer>
+          </PersonalRatingStatsContainer>
+          </>
+        : <></>}
     </PersonalRatingContainer>
   )
 }

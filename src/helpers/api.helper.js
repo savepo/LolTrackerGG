@@ -1,9 +1,9 @@
 // import { data } from './AppMockItems/peopleInformation'
 import axios from 'axios'
 
-const key = 'RGAPI-df1e1105-d048-43e2-aa28-953251cb7530'
+const key = 'RGAPI-6294d482-3606-483a-8adc-27006f4a76db'
 
-export function getSummonerData (region, username) {
+export async function getSummonerData (region, username) {
   return axios
     .get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${username}?api_key=${key}`)
     .then(response => response.data)
@@ -12,7 +12,7 @@ export function getSummonerData (region, username) {
     })
 }
 
-export function getRankedLevel (region, encryptedSummonerId) {
+export async function getRankedLevel (region, encryptedSummonerId) {
   return axios
     .get(`https://${region}.api.riotgames.com/lol/league/v4/entries/by-summoner/${encryptedSummonerId}?api_key=${key}`)
     .then(response => getPersonalRatingPreparedObject(response.data))
@@ -21,7 +21,7 @@ export function getRankedLevel (region, encryptedSummonerId) {
     })
 }
 
-export function getFavouriteChampion (region, encryptedSummonerId) {
+export async function getFavouriteChampion (region, encryptedSummonerId) {
   return axios
     .get(`https://${region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${encryptedSummonerId}?api_key=${key}`)
     .then(response => getFavouriteChampionPreparedObject(response.data[0]))
@@ -47,7 +47,7 @@ export async function getFavouriteChampionPreparedObject (data) {
   return FavouriteChampionData
 }
 
-function getChampionList () {
+async function getChampionList () {
   return axios
     .get('https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json')
     .then(response => response.data.data)
@@ -58,7 +58,7 @@ function getChampionList () {
 
 // RANKED LEVEL DATA
 
-function getPersonalRatingPreparedObject (data) {
+async function getPersonalRatingPreparedObject (data) {
   const PersonalRatingData = {
     RankedSolo: {
       text: 'Ranked Solo',
@@ -101,27 +101,27 @@ function getPersonalRatingPreparedObject (data) {
   return PersonalRatingData
 }
 
-async function GetListMatches (region, puuid, start, count) {
+async function getListMatches (region, puuid, start, count) {
   return axios
-    .get(`https://${RegionToContinent(region.toLowerCase())}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}&api_key=${key}`)
+    .get(`https://${regionToContinent(region.toLowerCase())}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}&api_key=${key}`)
     .then(response => response.data)
     .catch(error => {
       throw error
     })
 }
 
-async function GetMatchData (region, matchId) {
+async function getMatchData (region, matchId) {
   return axios
-    .get(`https://${RegionToContinent(region.toLowerCase())}.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${key}`)
+    .get(`https://${regionToContinent(region.toLowerCase())}.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${key}`)
     .then(response => response.data.info)
     .catch(error => {
       throw error
     })
 }
 
-export function getAvarageStatsFromLastMatches (region, puuid, start, count) {
-  return GetListMatches(region, puuid, start, count)
-    .then(listOfMatches => {
+export async function getAvarageStatsFromLastMatches (region, puuid, start, count) {
+  return getListMatches(region, puuid, start, count)
+    .then(async listOfMatches => {
       let totalKills = 0
       let totalDeaths = 0
       let totalAssists = 0
@@ -132,7 +132,7 @@ export function getAvarageStatsFromLastMatches (region, puuid, start, count) {
 
       matchesCount = listOfMatches.length
 
-      const promises = listOfMatches.map(match => GetMatchData(region, match))
+      const promises = listOfMatches.map(match => getMatchData(region, match))
 
       return Promise.all(promises).then(matchDataArray => {
         matchDataArray.forEach(matchData => {
@@ -201,9 +201,9 @@ export function getAvarageStatsFromLastMatches (region, puuid, start, count) {
 
 export async function getInfoMatch (region, puuid, start, count) {
   const matchInfoObject = []
-  const listOfMatches = await GetListMatches(region, puuid, start, count)
+  const listOfMatches = await getListMatches(region, puuid, start, count)
   const matchDataPromises = listOfMatches.map(async matchId => {
-    return await GetMatchData(region, matchId)
+    return await getMatchData(region, matchId)
   })
 
   const matchData = await Promise.all(matchDataPromises)
@@ -285,7 +285,7 @@ async function getIconChampionSrc (id) {
   const championId = await listChampions.find(c => Number(c.key) === Number(id))
   return championId.id
 }
-function RegionToContinent (region) {
+function regionToContinent (region) {
   let continent
   switch (region) {
     case 'euw1':

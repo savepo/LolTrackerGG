@@ -1,22 +1,33 @@
-import React from 'react'
-import { ProfileInformationContainer, ProfileInformationTitle, ProfileInformationIcon, ProfileInformationName, ProfileInformationLevelContainer, ProfileInformationLevelText, ProfileInformationLevelNumber } from './styles'
+import React, { useState, useEffect } from 'react'
+import { getSummonerData } from '../../helpers/api.helper'
+import LoadingSpinner from '../LoadingSpinner'
+import useFetchData from '../../hook/useFetchData'
+import { ProfileInformationContainer, ProfileInformationTitle, ProfileInformationIcon, ProfileInformationName, ProfileInformationLevelContainer, ProfileInformationLevelText, ProfileInformationLevelNumber, SpinnerSlot } from './styles'
 
-const ProfileInformation = ({ data }) => {
+const ProfileInformation = ({ gameName, region, onData }) => {
+  const [isLoading, summonerData, error] = useFetchData(gameName, region, getSummonerData, onData)
+
   let iconSource
-  if (data !== undefined) {
-    iconSource = 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/' + data.profileIconId + '.png'
+  if (summonerData !== null) {
+    iconSource = 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/' + summonerData.profileIconId + '.png'
   } else {
     iconSource = 'http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/1.png'
   }
   return (
     <ProfileInformationContainer>
-      <ProfileInformationTitle data-testid='PI_Title'>PROFILE INFO</ProfileInformationTitle>
-      <ProfileInformationIcon data-testid='PI_Icon' src={iconSource} />
-      <ProfileInformationName data-testid='PI_Username'>{data.name}</ProfileInformationName>
-      <ProfileInformationLevelContainer>
-        <ProfileInformationLevelText data-testid='PI_LevelText'>Level</ProfileInformationLevelText>
-        <ProfileInformationLevelNumber data-testid='PI_LevelNumber'>{data.summonerLevel}</ProfileInformationLevelNumber>
-      </ProfileInformationLevelContainer>
+      {isLoading ? <SpinnerSlot><LoadingSpinner /></SpinnerSlot> : <></>}
+
+      {summonerData !== null
+        ? <>
+          <ProfileInformationTitle data-testid='PI_Title'>PROFILE INFO</ProfileInformationTitle>
+          <ProfileInformationIcon data-testid='PI_Icon' src={iconSource} />
+          <ProfileInformationName data-testid='PI_Username'>{summonerData.name}</ProfileInformationName>
+          <ProfileInformationLevelContainer>
+            <ProfileInformationLevelText data-testid='PI_LevelText'>Level</ProfileInformationLevelText>
+            <ProfileInformationLevelNumber data-testid='PI_LevelNumber'>{summonerData.summonerLevel}</ProfileInformationLevelNumber>
+          </ProfileInformationLevelContainer>
+        </>
+        : <div />}
     </ProfileInformationContainer>
   )
 }
