@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { getSummonerData } from '../../helpers/api.helper'
 import LoadingSpinner from '../LoadingSpinner'
 import useFetchData from '../../hook/useFetchData'
 import { ProfileInformationContainer, ProfileInformationTitle, ProfileInformationIcon, ProfileInformationName, ProfileInformationLevelContainer, ProfileInformationLevelText, ProfileInformationLevelNumber, SpinnerSlot } from './styles'
 
 const ProfileInformation = ({ gameName, region, onData }) => {
-  const [isLoading, summonerData, error] = useFetchData(gameName, region, getSummonerData, onData)
+  const [isLoading, summonerData, error] = useFetchData(gameName, getSummonerData(region, gameName))
+
+  if (summonerData !== null) {
+    onData(summonerData)
+  }
 
   let iconSource
   if (summonerData !== null) {
@@ -26,7 +30,7 @@ const ProfileInformation = ({ gameName, region, onData }) => {
             <ProfileInformationLevelText data-testid='PI_LevelText'>Level</ProfileInformationLevelText>
             <ProfileInformationLevelNumber data-testid='PI_LevelNumber'>{summonerData.summonerLevel}</ProfileInformationLevelNumber>
           </ProfileInformationLevelContainer>
-        </>
+          </>
         : <div />}
     </ProfileInformationContainer>
   )

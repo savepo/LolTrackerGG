@@ -5,7 +5,7 @@ import { FavouriteChampionContainer, FavouriteChampionInformationContainer, Favo
 import useFetchData from '../../hook/useFetchData'
 
 const FavouriteChampion = ({ summonerId, region }) => {
-  const [isLoading, favouriteChampionData, error] = useFetchData(summonerId, region, getFavouriteChampion)
+  const [isLoading, favouriteChampionData, error] = useFetchData(summonerId, getFavouriteChampion(region, summonerId))
 
   return (
     <FavouriteChampionContainer>
@@ -22,7 +22,7 @@ const FavouriteChampion = ({ summonerId, region }) => {
               <FavouriteChampionPicture data-testid='FC_ChampImage' src={favouriteChampionData.championSrc} />
             </FavouriteChampionPictureContainer>
           </FavouriteChampionInformationContainer>
-          </>
+        </>
         : <></>}
 
     </FavouriteChampionContainer>

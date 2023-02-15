@@ -7,7 +7,7 @@ import useFetchData from '../../hook/useFetchData'
 import { PersonalRatingContainer, PersonalRatingTitle, PersonalRatingMenu, PersonalRatingStatsContainer, PersonalRatingInformationContainer, PersonalRatingLabel, PersonalRatingImageContainer, PersonalRatingRankPicture, SpinnerSlot } from './styles'
 
 const PersonalRating = ({ summonerId, region }) => {
-  const [isLoading, rankedLevelData, error] = useFetchData(summonerId, region, getRankedLevel)
+  const [isLoading, rankedLevelData, error] = useFetchData(summonerId, getRankedLevel(region, summonerId))
 
   const [selectedTab, setSelectedTab] = useState('Ranked Solo')
   const handleTabClick = (tab) => {
@@ -84,7 +84,7 @@ const PersonalRating = ({ summonerId, region }) => {
               </PersonalRatingImageContainer>
             </PersonalRatingInformationContainer>
           </PersonalRatingStatsContainer>
-          </>
+        </>
         : <></>}
     </PersonalRatingContainer>
   )
