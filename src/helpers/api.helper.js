@@ -1,7 +1,7 @@
 // import { data } from './AppMockItems/peopleInformation'
 import axios from 'axios'
 
-const key = 'RGAPI-6294d482-3606-483a-8adc-27006f4a76db'
+const key = 'RGAPI-751cdc48-42b4-4a96-9cab-d87508b2bd37'
 
 export async function getSummonerData (region, username) {
   return axios
